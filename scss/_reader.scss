@@ -212,7 +212,7 @@
       opacity: 0;
       cursor: pointer;
 
-      &:checked ~ span.checkmark {
+      &:checked~span.checkmark {
         outline: 4px solid rgb(46, 68, 138);
         border: none;
         background-color: $primary;
