@@ -1,6 +1,6 @@
 import * as UI_MODULE from './reading-page.js';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = '../assets/js/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/js/pdf.worker.min.js';
 
 let allPages = 0;
 let sidebarScale = 0.25;
