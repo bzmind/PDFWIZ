@@ -1,13 +1,13 @@
-import * as UiModule from './ReadingPageUi.js';
+import * as UI_MODULE from './reading-page.js';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '../assets/js/pdf.worker.min.js';
 
 let allPages = 0;
 let sidebarScale = 0.25;
 let pdfDoc = null;
 let pagesRefs = [];
-let srPageAndText = [];
-let srSpans = [];
+let searchResultPageAndText = [];
+let searchResultSpans = [];
 let isSearching;
 let pdfHash;
 let oldPagesNums = [];
@@ -30,10 +30,10 @@ function showPdf(file)
       allPages = pdfDoc.numPages;
       pdfHash = pdfDoc.fingerprints[0];
       getPdfLastData(pdfHash);
-      makePageContainers();
-      makeSidebar();
+      setupPageContainers();
+      setupSidebar();
       setupPageRefs();
-      document.querySelector('#allPages').textContent = allPages;
+      document.querySelector('#all-pages').textContent = allPages;
     });
   }
 
@@ -73,7 +73,7 @@ function setupPageRefs()
 }
 
 // Prepare the page containers
-function makePageContainers()
+function setupPageContainers()
 {
   document.querySelector('.pdf-container').innerHTML = "";
 
@@ -91,7 +91,7 @@ function makePageContainers()
       pageContainer.style.minHeight = `${viewport.height}px`;
       pageContainer.style.minWidth = `${viewport.width}px`;
 
-      if (document.querySelector('.activeTheme').id == 'dark')
+      if (document.querySelector('.active-theme').id == 'dark')
         pageContainer.style.backgroundColor = 'black';
       else
         pageContainer.style.backgroundColor = 'white';
@@ -110,8 +110,8 @@ function makePageContainers()
 
 function getPdfLastData(pdfHash)
 {
-  let d = localStorage.getItem(pdfHash);
-  if (d != null)
+  let pdf = localStorage.getItem(pdfHash);
+  if (pdf != null)
   {
     // Get pdf's last position
     let lastPos = parseInt(JSON.parse(localStorage.getItem(pdfHash)).position);
@@ -120,26 +120,26 @@ function getPdfLastData(pdfHash)
     // Get pdf's last scale
     let zoom = parseFloat(JSON.parse(localStorage.getItem(pdfHash)).zoom);
     document.querySelector('input[name="scaleRadio"]:checked').removeAttribute('checked');
-    document.querySelectorAll('input[name="scaleRadio"]').forEach(inp =>
+    document.querySelectorAll('input[name="scaleRadio"]').forEach(input =>
     {
-      if (inp.value == zoom)
+      if (input.value == zoom)
       {
-        inp.checked = "checked";
+        input.checked = "checked";
       }
     });
 
     // Get pdf's last theme
-    document.querySelector('.activeTheme').setAttribute('class', 'disabledTheme');
+    document.querySelector('.active-theme').setAttribute('class', 'disabled-theme');
     let theme = JSON.parse(localStorage.getItem(pdfHash)).theme;
-    document.getElementById(theme).setAttribute('class', 'activeTheme');
+    document.getElementById(theme).setAttribute('class', 'active-theme');
   } else
   {
     document.querySelector('input[name="scaleRadio"]:checked').removeAttribute('checked');
-    document.querySelectorAll('input[name="scaleRadio"]').forEach(inp =>
+    document.querySelectorAll('input[name="scaleRadio"]').forEach(input =>
     {
-      if (inp.value == 1.2)
+      if (input.value == 1.2)
       {
-        inp.checked = "checked";
+        input.checked = "checked";
       }
     });
   }
@@ -159,7 +159,7 @@ function renderPage(pageNum)
     canvas.style.display = "block";
     canvas.id = "pdfLayer";
 
-    if (document.querySelector('#dark').getAttribute('class') == 'activeTheme')
+    if (document.querySelector('#dark').getAttribute('class') == 'active-theme')
       canvas.classList.add('pdfLayerDark');
     else
       canvas.classList.add('pdfLayerLight');
@@ -233,11 +233,10 @@ let pageCounter = document.querySelector('#currPage');
 
 function observePageChange()
 {
-  //'use strict';
-  let height = pdfContainer.scrollHeight;
+    let height = pdfContainer.scrollHeight;
   let currPage = (pdfContainer.scrollTop / height * (allPages) + 1);
   pageCounter.value = Math.round(currPage);
-  UiModule.checkButtons();
+  UI_MODULE.checkButtons();
 }
 
 // Enable Intersection Observer to lazy load pages
@@ -257,7 +256,7 @@ function enableObserver()
           {
             renderPage(pageNum).then(() =>
             {
-              let searchWordsArr = srPageAndText[`${pageNum}R`];
+              let searchWordsArr = searchResultPageAndText[`${pageNum}R`];
               if (searchWordsArr != null)
                 highlightSearchText(pageNum, searchWordsArr, false);
             });
@@ -265,11 +264,11 @@ function enableObserver()
           {
             renderPage(pageNum);
           }
-        } else if (document.querySelector(`[data-page="${pageNum}"] .textLayer span.srHighlighted`) == null)
+        } else if (document.querySelector(`[data-page="${pageNum}"] .textLayer span.highlighted-search-result`) == null)
         {
           if (isSearching)
           {
-            let searchWordsArr = srPageAndText[`${pageNum}R`];
+            let searchWordsArr = searchResultPageAndText[`${pageNum}R`];
             if (searchWordsArr != null)
               highlightSearchText(pageNum, searchWordsArr, false);
           }
@@ -291,15 +290,15 @@ function removeOldRenderedPages()
   if (oldPagesNums.length > 10)
   {
     let latestRenderedPageNum = oldPagesNums.at(-1);
-    let biggestDiff = 0;
+    let biggestDifference = 0;
     let farestPageToDelete;
 
     oldPagesNums.forEach(oldPageNum =>
     {
-      let diff = Math.abs(latestRenderedPageNum - oldPageNum);
-      if (diff > biggestDiff)
+      let difference = Math.abs(latestRenderedPageNum - oldPageNum);
+      if (difference > biggestDifference)
       {
-        biggestDiff = diff;
+        biggestDifference = difference;
         farestPageToDelete = document.querySelector(`[data-page="${oldPageNum}"]`);
       }
     });
@@ -312,7 +311,7 @@ function removeOldRenderedPages()
 }
 
 // Setup sidebar
-function makeSidebar()
+function setupSidebar()
 {
   let promise = pdfDoc.getPage(Math.floor(allPages / 2)).then(page =>
   {
@@ -327,7 +326,7 @@ function makeSidebar()
       pageImageContainer.style.minHeight = `${viewport.height}px`;
       pageImageContainer.style.minWidth = `${viewport.width}px`;
 
-      if (document.querySelector('.activeTheme').id == 'dark')
+      if (document.querySelector('.active-theme').id == 'dark')
         pageImageContainer.style.backgroundColor = 'black';
       else
         pageImageContainer.style.backgroundColor = 'white';
@@ -393,7 +392,7 @@ function renderPageImage(pageImageNum)
       img.src = canvas.toDataURL('image/jpeg');
       img.id = 'pdfPageImage';
 
-      let theme = document.querySelector('.activeTheme').id;
+      let theme = document.querySelector('.active-theme').id;
       if (theme == 'dark')
       {
         img.setAttribute('class', 'darkImage');
@@ -416,12 +415,12 @@ function regexEscape(str)
   return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 }
 
-let currentSr;
+let currentSearchResult;
 
 function searchAllPages(searchText)
 {
-  clearPreviousSearchData();
-  UiModule.checkSearchButtons();
+  clearPreviousSearchResults();
+  UI_MODULE.checkSearchButtons();
   let promises = [];
   isSearching = true;
 
@@ -436,15 +435,15 @@ function searchAllPages(searchText)
     {
       if (results[i].lines.length > 0)
       {
-        srPageAndText[results[i].page + 'R'] = results[i].lines;
+        searchResultPageAndText[results[i].page + 'R'] = results[i].lines;
       }
     }
-    let firstItemKey = Object.keys(srPageAndText)[0];
+    let firstItemKey = Object.keys(searchResultPageAndText)[0];
     let pageNum;
     if (firstItemKey != null)
       pageNum = parseInt(firstItemKey.replace('R', ''));
 
-    if (srPageAndText[firstItemKey] != null)
+    if (searchResultPageAndText[firstItemKey] != null)
       goToSearchResultPage(pageNum);
   });
 }
@@ -485,13 +484,13 @@ function goToSearchResultPage(pageNum)
   // has already seen this page and this page is arleady rendered and it was
   // already showing the highlighted span, so if it has been seen before, we don't
   // repeat the rendering and highlighting process again
-  let highlightedSpan = document.querySelectorAll(`[data-page="${pageNum}"] .textLayer span.srHighlighted`);
+  let highlightedSpan = document.querySelectorAll(`[data-page="${pageNum}"] .textLayer span.highlighted-search-result`);
 
   if (highlightedSpan.length > 0)
   {
     let page = document.querySelector(`[data-page="${pageNum}"]`);
     page.setAttribute('data-searched', 'true');
-    UiModule.checkSearchButtons();
+    UI_MODULE.checkSearchButtons();
     highlightedSpan[0].scrollIntoView({ block: 'center' });
   } else
   {
@@ -499,13 +498,13 @@ function goToSearchResultPage(pageNum)
     {
       renderPage(pageNum).then(() =>
       {
-        let searchWordsArr = srPageAndText[`${pageNum}R`];
+        let searchWordsArr = searchResultPageAndText[`${pageNum}R`];
         if (searchWordsArr != null)
           highlightSearchText(pageNum, searchWordsArr, true);
       });
     } else
     {
-      let searchWordsArr = srPageAndText[`${pageNum}R`];
+      let searchWordsArr = searchResultPageAndText[`${pageNum}R`];
       if (searchWordsArr != null)
         highlightSearchText(pageNum, searchWordsArr, true);
     }
@@ -536,36 +535,36 @@ function highlightSearchText(pageNum, searchWordsArr, scroll)
         {
           firstHighlightedSpan = span;
         }
-        if (span.innerHTML.includes('srHighlighted'))
+        if (span.innerHTML.includes('highlighted-search-result'))
         {
           // This regex is only for grabbing the text outside of the span tag, so we can
           // highlight both the big "D" and the small "d" together
           let re = new RegExp(`(${regexEscape(searchWord)})(?![^<]*>|[^<>]*</)`, 'g');
-          span.innerHTML = span.innerHTML.replace(re, `<span class="srHighlighted">${searchWord}</span>`);
+          span.innerHTML = span.innerHTML.replace(re, `<span class="highlighted-search-result">${searchWord}</span>`);
         } else
         {
-          span.innerHTML = span.innerHTML.replace(re, `<span class="srHighlighted">${searchWord}</span>`);
+          span.innerHTML = span.innerHTML.replace(re, `<span class="highlighted-search-result">${searchWord}</span>`);
         }
       }
     });
   });
 
-  let searchIndex = srSpans.length;
+  let searchIndex = searchResultSpans.length;
 
   pageSpans.forEach(span =>
   {
     let spanContent = span.textContent;
-    // Just to fill the srSpans in order of the actuall spans in the page
+    // Just to fill the searchResultSpans in order of the actuall spans in the page
     // that's why I made this case insensitive regex, otherwise the above re,
     // would first push all the spans which have big 'D' for example, and then
     // it would push all the spans which had small 'd'
     let insensitiveRe = new RegExp(regexEscape(searchWordsArr[0]), 'gi');
     if (insensitiveRe.test(spanContent))
     {
-      if (span.className != 'srHighlighted' && !srSpans.includes(span))
+      if (span.className != 'highlighted-search-result' && !searchResultSpans.includes(span))
       {
-        span.setAttribute('data-searchindex', searchIndex);
-        srSpans.push(span);
+        span.setAttribute('data-search-index', searchIndex);
+        searchResultSpans.push(span);
         searchIndex++;
       }
     }
@@ -573,22 +572,22 @@ function highlightSearchText(pageNum, searchWordsArr, scroll)
 
   if (scroll)
   {
-    currentSr = firstHighlightedSpan;
+    currentSearchResult = firstHighlightedSpan;
     firstHighlightedSpan.scrollIntoView({ block: 'center' });
   }
 
-  UiModule.checkSearchButtons();
+  UI_MODULE.checkSearchButtons();
 }
 
-function scrollToSrPage(e)
+function scrollToSearchResultPage(e)
 {
   let searchedPageNum = parseInt(document.querySelector('[data-searched="true"]').getAttribute('data-page'));
-  let keys = Object.keys(srPageAndText);
+  let keys = Object.keys(searchResultPageAndText);
   let pageIndex;
 
-  if (e.target.classList.contains('prevSearchResult'))
+  if (e.target.classList.contains('prev-search-result'))
     pageIndex = keys.indexOf(`${searchedPageNum}R`) - 1;
-  else if (e.target.classList.contains('nextSearchResult'))
+  else if (e.target.classList.contains('next-search-result'))
   {
     if (keys.indexOf(`${searchedPageNum}R`) == -1)
     {
@@ -607,63 +606,63 @@ function scrollToSrPage(e)
     pageNum = parseInt(keys[pageIndex].replace('R', ''));
 
   goToSearchResultPage(pageNum);
-  UiModule.checkSearchButtons();
+  UI_MODULE.checkSearchButtons();
 }
 
-function scrollToSrSpan(e)
+function scrollToSearchResultSpan(e)
 {
-  let searchedSpan = parseInt(currentSr.getAttribute('data-searchindex'));
+  let searchedSpan = parseInt(currentSearchResult.getAttribute('data-search-index'));
   let spanIndex;
 
-  if (e.target.classList.contains('prevSearchResult'))
+  if (e.target.classList.contains('prev-search-result'))
     spanIndex = searchedSpan - 1;
-  else if (e.target.classList.contains('nextSearchResult'))
+  else if (e.target.classList.contains('next-search-result'))
     spanIndex = searchedSpan + 1;
 
-  if (spanIndex < 0 || spanIndex == srSpans.length)
+  if (spanIndex < 0 || spanIndex == searchResultSpans.length)
   {
-    currentSr = null;
-    scrollToSrPage(e);
+    currentSearchResult = null;
+    scrollToSearchResultPage(e);
   } else
   {
-    currentSr = null;
-    let spanToScroll = document.querySelector(`[data-searchindex="${spanIndex}"]`);
-    currentSr = spanToScroll;
+    currentSearchResult = null;
+    let spanToScroll = document.querySelector(`[data-search-index="${spanIndex}"]`);
+    currentSearchResult = spanToScroll;
     spanToScroll.scrollIntoView({ block: 'center' });
   }
 
-  UiModule.checkSearchButtons();
+  UI_MODULE.checkSearchButtons();
 }
 
-function clearPreviousSearchData()
+function clearPreviousSearchResults()
 {
   // If user was searching something else before this, and then it searched for sth else
   // then we need to clear any of the informations from the previous searched text
-  // like currentsr, data-searchindex, and the page data-searched attribute
-  currentSr = null;
+  // like currentSearchResult, data-search-index, and the page data-searched attribute
+  currentSearchResult = null;
   isSearching = false;
-  for (let i = 0; i < srSpans.length; i++)
+  for (let i = 0; i < searchResultSpans.length; i++)
   {
-    let span = document.querySelector(`[data-searchindex="${i}"]`);
+    let span = document.querySelector(`[data-search-index="${i}"]`);
     if (span != null)
-      span.removeAttribute('data-searchindex');
+      span.removeAttribute('data-search-index');
   }
 
   if (document.querySelector('[data-searched="true"]') != null)
     document.querySelector('[data-searched="true"]').removeAttribute('data-searched');
 
-  // empty the srSpans from previous searched spans
-  srSpans = [];
-  srPageAndText = [];
+  // empty the searchResultSpans from previous searched spans
+  searchResultSpans = [];
+  searchResultPageAndText = [];
 
-  // The reason I'm getting the prevHighlight is that, if a parent span has two .srHighlighted in it's childern
-  // then when I reach the first .srHighlighted from those two, then in that first loop, I'm cleaning it's parent's textContent
-  // from ANY .srHighlighted spans, so then that second .srHighlighted is gone, it was there at our querySelectorAll query
-  // but if there's two or more, we don't need them, we only need one .srHighlighted within a parent span, so then we will remove
-  // any .srHighlighted from it, so when that second .srHighlighted is removed, it's no longer there, but it is still in our
-  // highlights variable, so it'll return null and throws error, but I check if the second .srHighlighted has the same as the prevHighlight
+  // The reason I'm getting the prevHighlight is that, if a parent span has two .highlighted-search-result in it's childern
+  // then when I reach the first .highlighted-search-result from those two, then in that first loop, I'm cleaning it's parent's textContent
+  // from ANY .highlighted-search-result spans, so then that second .highlighted-search-result is gone, it was there at our querySelectorAll query
+  // but if there's two or more, we don't need them, we only need one .highlighted-search-result within a parent span, so then we will remove
+  // any .highlighted-search-result from it, so when that second .highlighted-search-result is removed, it's no longer there, but it is still in our
+  // highlights variable, so it'll return null and throws error, but I check if the second .highlighted-search-result has the same as the prevHighlight
   // it means that it's the second child of it's parent, we don't need it, so we return out of the forEach loop below
-  let highlights = document.querySelectorAll('.srHighlighted');
+  let highlights = document.querySelectorAll('.highlighted-search-result');
   let prevHighlight;
 
   highlights.forEach((highlight) =>
@@ -671,14 +670,14 @@ function clearPreviousSearchData()
     if (prevHighlight != null && prevHighlight.parentElement == highlight.parentElement)
       return;
 
-    highlight.parentElement.textContent = highlight.parentElement.textContent.replace('<span class="srHighlighted">', '').replace('</span>', '');
+    highlight.parentElement.textContent = highlight.parentElement.textContent.replace('<span class="highlighted-search-result">', '').replace('</span>', '');
     prevHighlight = highlight;
   });
 }
 
 export
 {
-  allPages, makePageContainers, makeSidebar, searchAllPages, currentSr, srSpans,
-  srPageAndText, clearPreviousSearchData, goToSearchResultPage, scrollToSrSpan, pdfHash
+  allPages, setupPageContainers, setupSidebar, searchAllPages, currentSearchResult, searchResultSpans,
+  searchResultPageAndText, clearPreviousSearchResults, goToSearchResultPage, scrollToSearchResultSpan, pdfHash
 };
 export default showPdf;

@@ -1,5 +1,5 @@
-import showPdf from './PdfProcessor.js';
-import * as UiModule from './ReadingPageUi.js';
+import showPdf from './pdf-processor.js';
+import * as UI_MODULE from './reading-page.js';
 
 let perfEntries = performance.getEntriesByType("navigation")[0];
 
@@ -69,7 +69,7 @@ function processPdf(e)
 {
   // If the user has already selected a file and is in the reading page now
   if (document.querySelector('.temp') == null)
-    UiModule.updateLocalStorage();
+    UI_MODULE.updateLocalStorage();
 
   let file;
 
@@ -94,11 +94,11 @@ function processPdf(e)
     return;
   }
 
-  if (document.querySelector('.homeContainer') != null)
-    UiModule.enableReadingPageUI();
+  if (document.querySelector('.home-container') != null)
+    UI_MODULE.enableReadingPageUI();
 
-  if (document.querySelector('.homeContainer') != null)
-    document.querySelector('.homeContainer').remove();
+  if (document.querySelector('.home-container') != null)
+    document.querySelector('.home-container').remove();
 
   showPdf(file);
   setLastPdf(file);
@@ -114,8 +114,8 @@ function getLastPdf()
   localforage.getItem('lastPdf', (err, value) =>
   {
     if (err || !value) return;
-    document.querySelector('.homeContainer').remove();
-    UiModule.enableReadingPageUI();
+    document.querySelector('.home-container').remove();
+    UI_MODULE.enableReadingPageUI();
     showPdf(value);
   });
 }

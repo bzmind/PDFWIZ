@@ -1,35 +1,20 @@
 {
-  "name": "test-pdf",
+  "name": "pdfwiz",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "The best pdf reader in the entire galaxy.",
+  "main": "index.html",
   "scripts": {
-    "nm": "nodemon js/server.js",
-    "ws": "sass --watch scss/style.scss css/style.css",
-    "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ws": "sass --watch scss/style.scss css/style.css"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bzmind/PDFWIZ.git"
+  },
+  "author": "bzmind",
   "license": "ISC",
-  "dependencies": {
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "gulp": "^4.0.2",
-    "nodemon": "^2.0.15",
-    "pdf.js": "^0.1.0",
-    "pdfjs-dist": "^2.10.377",
-    "worker-loader": "^3.0.8"
+  "bugs": {
+    "url": "https://github.com/bzmind/PDFWIZ/issues"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "sass": "^1.49.7",
-    "webpack": "^5.64.1",
-    "webpack-cli": "^4.9.1"
-  }
+  "homepage": "https://github.com/bzmind/PDFWIZ#readme"
 }

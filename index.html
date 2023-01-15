@@ -7,29 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PDFWIZ</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf_viewer.min.css"
-    integrity="sha512-txj/K5jJVzCqw9ovfgKo8iNPELqi3gS8UuLUBhG254Clle8CV4LDXVcmPG7t9AIy3o4dnUMgacgC0FV5rD3fMg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="assets/css/pdf_viewer.min.css" rel="stylesheet" />
+  <link href="assets/css/all.min.css" rel="stylesheet" />
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"
-    integrity="sha512-+BMamP0e7wn39JGL8nKAZ3yAQT2dL5oaXWr4ZYlTGkKOaoXM/Yj7c4oy50Ngz5yoUutAG17flueD4F6QpTlPng=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"
-    integrity="sha512-t2JWqzirxOmR9MZKu+BMz0TNHe55G5BZ/tfTmXMlxpUY8tsTo3QMD27QGoYKZKFAraIPDhFv56HLdN11ctmiTQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf_viewer.min.js"
-    integrity="sha512-D3EJEn7/t1QNwCG1RoxJfORQCSljY5RBc2tOL/UypM5jaa3W1v6JFu6158PEMT8F09C+3+ONgTx4FjdJovc/pA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="js/HomePageUi.js" type="module"></script>
 </head>
 
 <body>
-  <div class="homeContainer">
+  <div class="home-container">
     <div class="secondContainer">
       <div class="logoContainer">
         <svg class="logoSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 633 116.16">
@@ -70,7 +55,7 @@
     <div class="toolbar">
       <ul id="buttons">
         <li id="scale">
-          <button id="scaleBtn">
+          <button id="scale-button">
             <i>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -87,8 +72,8 @@
           </button>
         </li>
         <li id="theme">
-          <button id="themeBtn">
-            <i id="dark" class="activeTheme">
+          <button id="theme-button">
+            <i id="dark" class="active-theme">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 31 31">
                 <path
                   d="M29.69,8.78a2.11,2.11,0,0,0-1.38-2h0l-2.74-1L24.56,3h0a2.12,2.12,0,0,0-4,0l-1,2.73-2.74,1h0a2.13,2.13,0,0,0,0,4h0l2.74,1,1,2.73h0a2.13,2.13,0,0,0,4,0h0l1-2.73,2.74-1h0A2.1,2.1,0,0,0,29.69,8.78Zm-5.06,1a1.85,1.85,0,0,0-1.11,1.11h0l-.95,2.57-1-2.57h0a1.83,1.83,0,0,0-1.1-1.11h0l-2.57-1,2.57-.95h0a1.85,1.85,0,0,0,1.1-1.12h0l1-2.57.95,2.56h0a1.9,1.9,0,0,0,1.11,1.11h0l2.57.95-2.57,1Z"
@@ -98,7 +83,7 @@
                   style="fill: #8ea6ce;fill-rule: evenodd" />
               </svg>
             </i>
-            <i id="light" class="disabledTheme">
+            <i id="light" class="disabled-theme">
               <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M6.46286 13.9999C6.40167 19.6537 8.28611 21.5383 14.0006 21.5383C19.7151 21.5383 21.5383 19.6537 21.5383 13.9999C21.5383 8.34604 19.7151 6.46143 14.0006 6.46143C8.28611 6.46143 6.52405 8.34604 6.46286 13.9999ZM8.61658 14.0232C8.58728 16.7307 9.05966 17.8371 9.58892 18.3664C10.125 18.9025 11.2547 19.3845 14.0006 19.3845C16.7457 19.3845 17.8566 18.9027 18.3844 18.3714C18.9156 17.8367 19.3845 16.7219 19.3845 13.9999C19.3845 11.2779 18.9156 10.1631 18.3844 9.62842C17.8566 9.0971 16.7457 8.61527 14.0006 8.61527C11.2564 8.61527 10.1644 9.09689 9.64474 9.6234C9.11163 10.1636 8.6462 11.2866 8.61658 14.0232Z"
@@ -131,8 +116,8 @@
             </i>
           </button>
         </li>
-        <li class="sidebarIcon">
-          <button id="sidebarBtn">
+        <li class="sidebar-icon">
+          <button id="sidebar-button">
             <i>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 31 31">
                 <path
@@ -146,7 +131,7 @@
           </button>
         </li>
         <li id="search">
-          <button id="searchBtn">
+          <button id="search-button">
             <i>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -186,31 +171,35 @@
           <span class="checkmark"></span>
         </label>
       </div>
-      <div id="searchInputContainer">
-        <input type="text" class="searchInput" placeholder="Find" tabindex="-1">
-        <button class="prevSearchResult fas fa-chevron-left"></button>
-        <button class="nextSearchResult fas fa-chevron-right"></button>
+      <div id="search-input-container">
+        <input type="text" class="search-input" placeholder="Find" tabindex="-1">
+        <button class="prev-search-result fas fa-chevron-left"></button>
+        <button class="next-search-result fas fa-chevron-right"></button>
       </div>
     </div>
     <div class="parent-container">
-      <div class="sidebarParent">
+      <div class="sidebar-parent">
         <div class="sidebar sidebar-off"></div>
       </div>
       <div class="pdf-container">
       </div>
     </div>
-    <div class="pageInfo">
+    <div class="page-info">
       <button id="prev-page">
         <i class="fas fa-chevron-up"></i>
       </button>
       <span class="page-counter">
-        <input id="currPage" type="number" min="1" name="pageNum"></input><span id="allPages"></span>
+        <input id="currPage" type="number" min="1" name="pageNum"></input><span id="all-pages"></span>
       </span>
       <button id="next-page">
         <i class="fas fa-chevron-down"></i>
       </button>
     </div>
   </div>
+  <script src="assets/js/localforage.min.js"></script>
+  <script src="assets/js/pdf.min.js"></script>
+  <script src="assets/js/pdf_viewer.min.js"></script>
+  <script src="js/home.js" type="module"></script>
 </body>
 
 </html>

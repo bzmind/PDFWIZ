@@ -1,4 +1,4 @@
-import * as pdfModule from './PdfProcessor.js';
+import * as PDF_MODULE from './pdf-processor.js';
 
 let checkSearchButtons;
 let checkButtons;
@@ -9,12 +9,12 @@ function enableReadingPageUI()
 {
   let prevPageNum;
   let sidebar = document.querySelector('.sidebar');
-  let pageInfo = document.querySelector('.pageInfo');
+  let pageInfo = document.querySelector('.page-info');
   let prevButton = document.querySelector('#prev-page');
   let nextButton = document.querySelector('#next-page');
   let pageCounter = document.querySelector('#currPage');
   let pdfContainer = document.querySelector('.pdf-container');
-  let sidebarParent = document.querySelector('.sidebarParent');
+  let sidebarParent = document.querySelector('.sidebar-parent');
 
   pageCounter.value = 1;
 
@@ -48,7 +48,7 @@ function enableReadingPageUI()
       prevButton.disabled = false;
     }
 
-    if (pageCounter.value == pdfModule.allPages)
+    if (pageCounter.value == PDF_MODULE.allPages)
     {
       nextButton.disabled = true;
     } else
@@ -69,10 +69,10 @@ function enableReadingPageUI()
   {
     pdfInfo.position = pdfContainer.scrollTop;
     pdfInfo.zoom = document.querySelector('input[name="scaleRadio"]:checked').value;
-    pdfInfo.theme = document.querySelector('.activeTheme').id;
+    pdfInfo.theme = document.querySelector('.active-theme').id;
 
     let strPdfInfo = JSON.stringify(pdfInfo);
-    localStorage.setItem(pdfModule.pdfHash, strPdfInfo);
+    localStorage.setItem(PDF_MODULE.pdfHash, strPdfInfo);
   }
 
   function showPrevPage()
@@ -97,21 +97,21 @@ function enableReadingPageUI()
   }
 
   // Scale button & menu
-  let scaleBtn = document.querySelector('#scaleBtn');
+  let scaleButton = document.querySelector('#scale-button');
   let scaleMenu = document.querySelector('#scale-menu');
 
-  scaleBtn.addEventListener('click', toggleScaleMenu);
+  scaleButton.addEventListener('click', toggleScaleMenu);
 
   function toggleScaleMenu()
   {
 
-    if (scaleBtn.getAttribute('class') == 'clicked')
+    if (scaleButton.getAttribute('class') == 'clicked')
     {
-      scaleBtn.removeAttribute('class');
+      scaleButton.removeAttribute('class');
       scaleMenu.removeAttribute('class');
     } else
     {
-      scaleBtn.setAttribute('class', 'clicked');
+      scaleButton.setAttribute('class', 'clicked');
       scaleMenu.setAttribute('class', 'on');
     }
   }
@@ -127,7 +127,7 @@ function enableReadingPageUI()
     let lastPdfHeight = pdfContainer.scrollHeight;
     updateLocalStorage();
 
-    pdfModule.makePageContainers().then(() =>
+    PDF_MODULE.setupPageContainers().then(() =>
     {
       let ratio = pdfContainer.scrollHeight / lastPdfHeight;
       let newScrollPosition = pdfContainer.scrollTop * ratio;
@@ -136,110 +136,110 @@ function enableReadingPageUI()
   }
 
   // Search button
-  let searchBtn = document.querySelector('#searchBtn');
-  let searchMenu = document.querySelector('#searchInputContainer');
+  let searchButton = document.querySelector('#search-button');
+  let searchMenu = document.querySelector('#search-input-container');
 
-  searchBtn.addEventListener('click', toggleSearchMenu);
+  searchButton.addEventListener('click', toggleSearchMenu);
 
   function toggleSearchMenu()
   {
-    if (searchBtn.getAttribute('class') == 'clicked')
+    if (searchButton.getAttribute('class') == 'clicked')
     {
-      searchBtn.removeAttribute('class');
+      searchButton.removeAttribute('class');
       searchMenu.removeAttribute('class');
       searchInput.value = '';
-      pdfModule.clearPreviousSearchData();
+      PDF_MODULE.clearPreviousSearchResults();
     } else
     {
       searchMenu.setAttribute('class', 'on');
-      searchBtn.setAttribute('class', 'clicked');
-      document.querySelector('.prevSearchResult').disabled = true;
-      document.querySelector('.nextSearchResult').disabled = true;
+      searchButton.setAttribute('class', 'clicked');
+      document.querySelector('.prev-search-result').disabled = true;
+      document.querySelector('.next-search-result').disabled = true;
       setTimeout(() =>
       {
-        document.querySelector('.searchInput').focus();
+        document.querySelector('.search-input').focus();
       }, 50);
     }
   }
 
   // Search Input
-  let searchInput = document.querySelector('#searchInputContainer .searchInput');
+  let searchInput = document.querySelector('#search-input-container .search-input');
   searchInput.addEventListener('keyup', (e) =>
   {
     if ((e.key === 'Enter' || e.keyCode === 13) && searchInput.value.length != 0)
     {
-      pdfModule.searchAllPages(searchInput.value);
+      PDF_MODULE.searchAllPages(searchInput.value);
     }
   });
 
-  let prevSearchResult = document.querySelector('.prevSearchResult');
-  let nextSearchResult = document.querySelector('.nextSearchResult');
+  let prevSearchResult = document.querySelector('.prev-search-result');
+  let nextSearchResult = document.querySelector('.next-search-result');
 
-  prevSearchResult.addEventListener('click', goToSrSpan);
-  nextSearchResult.addEventListener('click', goToSrSpan);
+  prevSearchResult.addEventListener('click', goToSearchResultSpan);
+  nextSearchResult.addEventListener('click', goToSearchResultSpan);
 
-  function goToSrSpan(e)
+  function goToSearchResultSpan(e)
   {
-    pdfModule.scrollToSrSpan(e);
+    PDF_MODULE.scrollToSearchResultSpan(e);
   }
 
   checkSearchButtons = function checkSearchButtons()
   {
-    let prevSrBtn = document.querySelector('.prevSearchResult');
-    let nextSrBtn = document.querySelector('.nextSearchResult');
-    let searchInput = document.querySelector('.searchInput');
-    let currSpanIndex;
+    let prevSearchResultButton = document.querySelector('.prev-search-result');
+    let nextSearchResultButton = document.querySelector('.next-search-result');
+    let searchInput = document.querySelector('.search-input');
+    let currentSpanIndex;
 
-    if (pdfModule.currentSr != null)
-      currSpanIndex = parseInt(pdfModule.currentSr.getAttribute('data-searchindex'));
+    if (PDF_MODULE.currentSearchResult != null)
+      currentSpanIndex = parseInt(PDF_MODULE.currentSearchResult.getAttribute('data-search-index'));
     else
-      currSpanIndex = 0;
+      currentSpanIndex = 0;
 
-    let keys = Object.keys(pdfModule.srPageAndText);
+    let keys = Object.keys(PDF_MODULE.searchResultPageAndText);
 
     if (searchInput.value == '')
     {
-      prevSrBtn.disabled = true;
-      nextSrBtn.disabled = true;
+      prevSearchResultButton.disabled = true;
+      nextSearchResultButton.disabled = true;
     }
 
-    if (currSpanIndex == 0)
+    if (currentSpanIndex == 0)
     {
-      prevSrBtn.disabled = true;
+      prevSearchResultButton.disabled = true;
     } else
     {
-      prevSrBtn.disabled = false;
+      prevSearchResultButton.disabled = false;
     }
 
     if (keys.length > 0)
     {
-      if (currSpanIndex == keys.length - 1)
+      if (currentSpanIndex == keys.length - 1)
       {
-        nextSrBtn.disabled = true;
+        nextSearchResultButton.disabled = true;
       } else
       {
-        nextSrBtn.disabled = false;
+        nextSearchResultButton.disabled = false;
       }
     } else
     {
-      nextSrBtn.disabled = true;
+      nextSearchResultButton.disabled = true;
     }
   }
 
   // Toggle Theme
-  let themeBtn = document.querySelector('#themeBtn');
-  themeBtn.addEventListener('click', toggleTheme);
+  let themeButton = document.querySelector('#theme-button');
+  themeButton.addEventListener('click', toggleTheme);
 
   function toggleTheme()
   {
-    let activeTheme = document.querySelector('.activeTheme');
-    let disabledTheme = document.querySelector('.disabledTheme');
+    let activeTheme = document.querySelector('.active-theme');
+    let disabledTheme = document.querySelector('.disabled-theme');
 
     activeTheme.removeAttribute('class');
-    activeTheme.setAttribute('class', 'disabledTheme');
+    activeTheme.setAttribute('class', 'disabled-theme');
 
     disabledTheme.removeAttribute('class');
-    disabledTheme.setAttribute('class', 'activeTheme');
+    disabledTheme.setAttribute('class', 'active-theme');
 
     document.querySelectorAll('#pdfLayer').forEach((item) =>
     {
@@ -271,25 +271,25 @@ function enableReadingPageUI()
   }
 
   // Document click
-  document.addEventListener('click', docClicked);
-  function docClicked(e)
+  document.addEventListener('click', documentClicked);
+  function documentClicked(e)
   {
     if (e.target != scaleMenu && !scaleMenu.contains(e.target)
-      && e.target != scaleBtn && !scaleBtn.contains(e.target))
+      && e.target != scaleButton && !scaleButton.contains(e.target))
     {
       scaleMenu.removeAttribute('class');
-      scaleBtn.removeAttribute('class');
+      scaleButton.removeAttribute('class');
     }
 
     if (e.target != searchMenu && !searchMenu.contains(e.target)
-      && e.target != searchBtn && !searchBtn.contains(e.target)
+      && e.target != searchButton && !searchButton.contains(e.target)
       && e.target != pageInfo && !pageInfo.contains(e.target)
       && searchMenu.className == 'on')
     {
       searchMenu.removeAttribute('class');
-      searchBtn.removeAttribute('class');
+      searchButton.removeAttribute('class');
       searchInput.value = '';
-      pdfModule.clearPreviousSearchData();
+      PDF_MODULE.clearPreviousSearchResults();
     }
   }
 
@@ -312,8 +312,8 @@ function enableReadingPageUI()
   }
 
   // Toggle pdf sidebar
-  let sidebarBtn = document.querySelector('#sidebarBtn');
-  sidebarBtn.addEventListener('click', toggleSidebar);
+  let sidebarButton = document.querySelector('#sidebar-button');
+  sidebarButton.addEventListener('click', toggleSidebar);
   function toggleSidebar()
   {
     if (sidebar.classList.contains('sidebar-off'))
@@ -342,7 +342,7 @@ function enableReadingPageUI()
   {
     if (e.key === 'Enter' || e.keyCode === 13)
     {
-      if (e.target.value > pdfModule.allPages || e.target.value < 1)
+      if (e.target.value > PDF_MODULE.allPages || e.target.value < 1)
       {
         e.target.value = (prevPageNum == undefined ? 1 : prevPageNum);
       } else if (e.target.value != prevPageNum)
@@ -355,7 +355,7 @@ function enableReadingPageUI()
 
   pageCounter.addEventListener('blur', (e) =>
   {
-    if (e.target.value > pdfModule.allPages || e.target.value < 1)
+    if (e.target.value > PDF_MODULE.allPages || e.target.value < 1)
     {
       e.target.value = (prevPageNum == undefined ? 1 : prevPageNum);
     } else if (e.target.value != prevPageNum)
