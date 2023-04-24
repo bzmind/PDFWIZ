@@ -59,8 +59,8 @@
   height: 100%;
 }
 
-.pdfLayerDark,
-.darkImage {
+.pdf-layer-dark,
+.dark-image {
   -webkit-filter: invert(100%) hue-rotate(180deg) !important;
   filter: invert(100%) hue-rotate(180deg) !important;
 }

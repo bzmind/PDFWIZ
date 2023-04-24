@@ -160,7 +160,7 @@ function renderPage(pageNum)
     canvas.id = "pdfLayer";
 
     if (document.querySelector('#dark').getAttribute('class') == 'active-theme')
-      canvas.classList.add('pdfLayerDark');
+      canvas.classList.add('pdf-layer-dark');
     else
       canvas.classList.add('pdfLayerLight');
 
@@ -395,7 +395,7 @@ function renderPageImage(pageImageNum)
       let theme = document.querySelector('.active-theme').id;
       if (theme == 'dark')
       {
-        img.setAttribute('class', 'darkImage');
+        img.setAttribute('class', 'dark-image');
       }
 
       let pageNumberSpan = document.createElement('span');

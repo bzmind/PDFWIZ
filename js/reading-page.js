@@ -243,12 +243,12 @@ function enableReadingPageUI()
 
     document.querySelectorAll('#pdfLayer').forEach((item) =>
     {
-      item.classList.toggle('pdfLayerDark');
+      item.classList.toggle('pdf-layer-dark');
     });
 
     document.querySelectorAll('#pdfPageImage').forEach((itme) =>
     {
-      itme.classList.toggle('darkImage');
+      itme.classList.toggle('dark-image');
     });
 
     document.querySelectorAll('.page-container').forEach((item) =>
