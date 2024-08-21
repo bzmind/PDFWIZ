@@ -13,7 +13,10 @@ let pdfDoc = null;
 let pdfHash;
 
 const eventBus = new pdfjsViewer.EventBus();
-const pdfLinkService = new pdfjsViewer.PDFLinkService({ eventBus });
+const pdfLinkService = new pdfjsViewer.PDFLinkService({
+  eventBus,
+  ignoreDestinationZoom: true
+});
 let pdfViewer = null;
 let findController = null;
 
@@ -54,6 +57,7 @@ function showPdf(file)
       pdfViewer.eventBus.on('pagechanging', function (e)
       {
         document.querySelector('#currPage').value = e.pageNumber;
+        UI_MODULE.checkButtons();
       });
 
       // Update total pages on pagesinit
@@ -256,8 +260,10 @@ function createOutlineItems(items, container, linkService, level = 0)
     // Navigate to the destination on click
     pTag.addEventListener('click', function ()
     {
-      pdfViewer.currentPageNumber = parseInt(pageSpan.textContent);
-      UI_MODULE.checkButtons();
+      linkService.goToDestination(item.dest).then(() =>
+      {
+        UI_MODULE.checkButtons();
+      });
     });
 
     // Recursively create the sub-outline items

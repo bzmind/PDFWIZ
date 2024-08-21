@@ -394,6 +394,8 @@ function setupReadingPageUI()
     if (scrollTimer !== null)
       clearTimeout(scrollTimer);
 
+    checkButtons();
+
     scrollTimer = setTimeout(function ()
     {
       document.addEventListener('mousemove', checkPageInfoVisibility);
@@ -436,9 +438,8 @@ function setupReadingPageUI()
         e.target.value = (prevPageNum == undefined ? 1 : prevPageNum);
       } else if (e.target.value != prevPageNum)
       {
-        PDF_MODULE.pdfViewer.currentPageNumber = parseInt(e.target.value);
+        PDF_MODULE.goToPage(parseInt(e.target.value));
         prevPageNum = e.target.value;
-        checkButtons();
       }
     }
   });
