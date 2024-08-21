@@ -72,6 +72,7 @@ function setupReadingPageUI()
   {
     removeLoading();
     handleUIElementsVisibility();
+    checkButtons();
   }
 
   let inToolbarArea = false;
