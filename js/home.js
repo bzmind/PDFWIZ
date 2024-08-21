@@ -101,9 +101,17 @@ function getLastPdf()
 {
   localforage.getItem('lastPdf', (err, value) =>
   {
-    if (err || !value) return;
-    document.querySelector('.home-container').remove();
-    UI_MODULE.setupReadingPageUI();
+    if (err || !value)
+      return;
+
+    document.querySelector('.loading').style.opacity = 1;
+    document.querySelector('.loading').style.display = '';
+
+    if (document.querySelector('.home-container') != null)
+    {
+      UI_MODULE.setupReadingPageUI();
+      document.querySelector('.home-container').remove();
+    }
     showPdf(value);
   });
 }
