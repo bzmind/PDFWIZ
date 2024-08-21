@@ -1,0 +1,119 @@
+@use "config" as *;
+
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+
+  .secondContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    width: 300px;
+    height: 185px;
+
+    .logoContainer {
+      top: 0px;
+      position: absolute;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .logoSvg {
+        &::before {
+          content: "";
+          border: 1px solid red;
+          width: 100px;
+          height: 100px;
+          background-image: linear-gradient(225deg, #27d86c 0%, #26caf8 50%, #c625d0 100%);
+        }
+
+        .logo {
+          fill: $primary;
+        }
+      }
+
+      .logoText {
+        color: $secondary;
+        font-family: "Space Grotesk";
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        margin: 8px 0 0 0;
+        font-size: 15px;
+      }
+    }
+
+    .uploadContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 0px;
+      position: absolute;
+
+      .uploadBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2f3037;
+        color: $secondary;
+        font-size: 22px;
+        font-family: "Sora";
+        font-weight: 600;
+        border-radius: 22px;
+        border-bottom: 4px solid $primary;
+        margin: 5px;
+        padding: 15px 20px;
+        letter-spacing: 1px;
+        transition: all 0.1s ease-out;
+
+        &:hover {
+          cursor: pointer;
+          background-color: lighten(#2f3037, 3%);
+        }
+
+        &.clicked {
+          transform: translateY(3px);
+          border-bottom: 0px solid $primary;
+        }
+
+        svg {
+          margin-right: 10px;
+          margin-bottom: 2px;
+        }
+      }
+
+      .uploadInput {
+        display: none;
+      }
+    }
+  }
+}
+
+.error {
+  position: relative;
+  margin-top: 15px;
+  padding: 15px 15px 14px 12px;
+  border-radius: 20px;
+
+  p {
+    display: flex;
+    align-items: center;
+    font-family: "Bitter";
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-bottom: 0px;
+    color: rgb(255, 95, 102);
+    font-size: 16px;
+
+    span {
+      font-weight: 100;
+      font-size: 25px;
+      margin-right: 3px;
+    }
+  }
+}

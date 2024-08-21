@@ -1,0 +1,23 @@
+{
+  "name": "pdfwiz",
+  "version": "1.0.0",
+  "description": "The best pdf reader in the entire galaxy.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ws": "sass --watch scss/style.scss css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bzmind/PDFWIZ.git"
+  },
+  "author": "bzmind",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bzmind/PDFWIZ/issues"
+  },
+  "homepage": "https://github.com/bzmind/PDFWIZ#readme",
+  "devDependencies": {
+    "sass": "^1.77.8"
+  }
+}

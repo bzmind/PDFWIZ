@@ -1,0 +1,49 @@
+@use "config" as *;
+@use "reader";
+@use "home";
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  scroll-behavior: auto !important;
+  background: $bg;
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+input {
+  font-weight: 600;
+  border: none;
+  outline: none;
+}
+
+button {
+  outline: none;
+  border: none;
+}

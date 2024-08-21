@@ -1,0 +1,583 @@
+@use "config" as *;
+
+.textLayer {
+  opacity: 1;
+
+  .highlighted-search-result {
+    background: $highlight;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .highlight.selected {
+    background-color: rgb(255 217 34 / 55%) !important;
+  }
+
+  .highlight {
+    background-color: rgba(34 122 255 / 25%) !important;
+  }
+
+  span::selection {
+    background: $highlight;
+    // opacity: 0.3;
+  }
+
+  span::-moz-selection {
+    background: $highlight;
+    // opacity: 0.3;
+  }
+
+  br::selection {
+    background: none;
+  }
+}
+
+.linkAnnotation {
+  position: absolute;
+  opacity: 1;
+  overflow: hidden;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.pdf-dark-theme .page,
+.sidebar-dark-theme .thumbnail {
+  -webkit-filter: invert(100%) hue-rotate(180deg) !important;
+  filter: invert(100%) hue-rotate(180deg) !important;
+}
+
+.pageInfo-area {
+  position: absolute;
+  height: 55px;
+  width: 100%;
+  bottom: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.page-info {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  bottom: 10px;
+  border-radius: 10px;
+  height: 35px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: $elText;
+  background-color: $elBg;
+  padding: 5px;
+  font-size: 14px;
+
+  button {
+    color: $elText;
+    font-size: 14px;
+    border-radius: 5px;
+    height: 25px;
+    width: 25px;
+    background: none;
+    transition: all 0.1s ease-out;
+
+    &:not(:disabled):hover {
+      background-color: lighten($elBg, 7%);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+    }
+  }
+
+  .page-counter {
+    margin: 0 6px;
+    font-family: "Bitter";
+    align-items: center;
+    display: flex;
+    font-weight: 600;
+    padding-top: 1px;
+
+    input#currPage {
+      width: 40px;
+      height: 25px;
+      padding-top: 3px;
+      border-radius: 4px;
+      text-align: center;
+      margin-right: 8px;
+      color: $elText;
+      background-color: $bg;
+
+      &:focus {
+        border: 1px solid $primary;
+      }
+    }
+
+    span#all-pages {
+      padding-top: 3px;
+    }
+  }
+}
+
+.toolbar-area {
+  position: absolute;
+  width: 70px;
+  height: 100%;
+  z-index: 25;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.toolbar {
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  z-index: 20;
+  transform: translate(0, -50%);
+  width: 50px;
+
+  ul#buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $elBg;
+    padding: 5px;
+    width: 50px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+
+    li {
+      width: 40px;
+      height: 40px;
+    }
+
+    li:not(:last-child) {
+      margin-bottom: 5px;
+    }
+
+    button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background-color: $elBg;
+      transition: all 0.15s ease-out;
+      overflow: hidden;
+      padding-bottom: 2px;
+
+      &:hover,
+      &.clicked {
+        background-color: lighten($elBg, 7%);
+      }
+
+      &#theme-button {
+        position: relative;
+        padding-top: 1px;
+
+        i {
+          transition: all 0.2s ease-out;
+          display: inline;
+          position: absolute;
+        }
+
+        .disabled-theme {
+          transform: translateX(50px);
+          opacity: 0;
+        }
+
+        .active-theme {
+          transform: translateX(0px);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+#scale-menu {
+  color: $elText;
+  font-family: "Bitter";
+  position: fixed;
+  font-size: 14px;
+  left: 45px;
+  top: 4px;
+  background-color: $elBg;
+  padding: 5px 15px;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.9);
+  font-weight: 600;
+  transition: all 0.1s ease-out;
+
+  &.on {
+    visibility: visible;
+    transform: scale(1);
+    left: 55px;
+    opacity: 1;
+  }
+
+  label {
+    display: flex;
+    padding-top: 2px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-bottom: 2px;
+    }
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+
+      &:checked~span.checkmark {
+        outline: 4px solid rgb(46, 68, 138);
+        border: none;
+        background-color: $primary;
+        opacity: 1;
+      }
+    }
+  }
+
+  span.checkmark {
+    top: 7px;
+    left: 0px;
+    position: absolute;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 2px solid $elText;
+    opacity: 0.3;
+    transition: all 0.1s ease-out;
+  }
+}
+
+#search-input-container {
+  display: flex;
+  border-radius: 10px;
+  padding: 8px;
+  top: 140px;
+  left: 45px;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  background-color: $elBg;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  transition: all 0.1s ease-out;
+
+  &.on {
+    visibility: visible;
+    transform: scale(1);
+    left: 55px;
+    opacity: 1;
+  }
+
+  input {
+    border-radius: 5px;
+    color: $elText;
+    background-color: $bg;
+    border: 1px solid $bg;
+    height: 25px;
+    padding-left: 5px;
+    font-size: 14px;
+    width: 150px;
+    transition: all 0.1s ease-out;
+    font-family: "Space Grotesk";
+    font-weight: 600;
+
+    &::placeholder {
+      color: darken($elText, 10%);
+    }
+
+    &:focus {
+      border: 1px solid $primary;
+    }
+  }
+
+  button {
+    margin-left: 5px;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 25px;
+    background-color: $bg;
+    transition: all 0.1s ease-out;
+    border: 1px solid hsl(228 15% 35% / 1);
+    color: $elText;
+
+    &:not(:disabled):hover {
+      background-color: lighten($bg, 10%);
+      border: 1px solid $primary;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+    }
+  }
+}
+
+.main-container {
+  background-color: $bg;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+
+  .pdf-container {
+
+    .page {
+      overflow: hidden;
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.parent-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#sidebar {
+  z-index: 10;
+  width: 300px;
+  height: 100vh;
+  margin-left: 66px;
+  overflow-y: auto;
+  background-color: $bg;
+  padding: 5px;
+}
+
+#sidebarButtons {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    border-radius: 10px;
+    padding: 5px;
+    display: inline-flex;
+    background-color: $elBg;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid $elText;
+    width: 35px;
+    color: #a2a2a2;
+    height: 35px;
+    transition: all 0.1s ease-in-out;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+
+    &:nth-child(2) {
+      margin-left: 5px;
+    }
+
+    &:hover {
+      background-color: #373941;
+    }
+  }
+
+  .active-sidebar {
+    border: 1px solid $primary;
+    color: #d0e1ff;
+  }
+}
+
+#thumbnailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.thumbnail {
+  position: relative;
+  cursor: pointer;
+
+  canvas {
+    border-radius: 5px;
+  }
+
+  .thumbnail-pageSpan {
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(225.88, 20.24%, 20%);
+    color: white;
+    height: 15px;
+    padding: 1px 6px 0px 6px;
+    font-size: 12px;
+    border-radius: 7px 7px 0 0;
+    transition: all 0.15s ease-in-out;
+  }
+}
+
+.thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+#outlineContainer {
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 8px;
+  font-family: 'Bitter';
+  background-color: $elBg;
+}
+
+.outlineItem {
+  cursor: pointer;
+  word-wrap: break-word;
+  color: white;
+  border-radius: 5px 5px 0 0;
+  border-bottom: 1px solid hsl(227 8% 35% / 1);
+
+  p {
+    margin: 5px 5px 5px 0;
+    letter-spacing: 0.5px;
+    border-radius: 5px;
+    padding: 5px;
+    transition: all 0.1s ease-in-out;
+  }
+
+  p:hover {
+    background-color: #373941;
+  }
+
+  .titleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 1px solid #6c707f80;
+
+    .toggle {
+      border-radius: 5px;
+      border: 1px solid $elText;
+      min-width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease-in-out;
+
+      i {
+        transition: all 0.1s ease-in-out;
+      }
+
+      i.rotate {
+        transform: rotate(-90deg);
+      }
+
+      &:not(:has(.rotate)) {
+        background-color: #373941;
+        border-color: $primary;
+      }
+
+      &:hover {
+        background-color: #373941;
+        border-color: $primary;
+      }
+    }
+
+    p {
+      width: 100%;
+      border-bottom: 0;
+      margin-left: 5px;
+    }
+  }
+}
+
+.pageSpan {
+  background-color: hsl(226 20% 33% / 1);
+  ;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-right: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#viewerContainer {
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.annotationLayer .linkAnnotation>a:hover {
+  opacity: 0.3;
+  background: #0073ff;
+  box-shadow: 0 2px 10px #008dff;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  z-index: 30;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg;
+  transition: all 0.3s ease-in-out;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, $primary 94%, #0000) top/6.4px 6.4px no-repeat,
+    conic-gradient(#0000 30%, $primary);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6.4px), #000 0);
+  animation: rotate 0.6s infinite linear;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}

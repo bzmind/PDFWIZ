@@ -1,0 +1,45 @@
+$bg: #1e1f24;
+$primary: #5074f9;
+$secondary: #b8c9e5;
+$outline: #363740;
+$elText: #6c7080;
+$elBg: #27282e;
+$highlight: #2e82ff69;
+
+/* #region Bitter */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../assets/fonts/Bitter/raxhHiqOu8IVPmnRc6SY1KXhnF_Y8fbfOLjOXQ.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../assets/fonts/Bitter/raxhHiqOu8IVPmnRc6SY1KXhnF_Y8SjYOLjOXQ.woff2) format('woff2');
+}
+
+/* #endregion */
+
+/* #region Space Grotesk */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../assets/fonts/SpaceGrotesk/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7aUXskPMA.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../assets/fonts/SpaceGrotesk/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj42VnskPMA.woff2) format('woff2');
+}
+
+/* #endregion */
