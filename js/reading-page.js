@@ -9,13 +9,16 @@ let handleAfterPDFLoaded;
 
 function setupReadingPageUI()
 {
+  let isScaleMenuOpen = false;
+  let isSearchMenuOpen = false;
   let prevPageNum;
   let sidebar = document.querySelector('#sidebar');
+  let toolbar = document.querySelector('.toolbar');
   let pageInfo = document.querySelector('.page-info');
   let prevButton = document.querySelector('#prev-page');
   let nextButton = document.querySelector('#next-page');
   let pageCounter = document.querySelector('#currPage');
-  let pdfContainer = document.querySelector('.main-container');
+  let mainContainer = document.querySelector('.main-container');
 
   pageCounter.value = 1;
 
@@ -57,7 +60,7 @@ function setupReadingPageUI()
 
   updateLocalStorage = function ()
   {
-    pdfInfo.position = pdfContainer.scrollTop;
+    pdfInfo.position = mainContainer.scrollTop;
     pdfInfo.scale = document.querySelector('input[name="scaleRadio"]:checked').value;
     pdfInfo.theme = document.querySelector('.active-theme').id;
 
@@ -71,22 +74,19 @@ function setupReadingPageUI()
     handleUIElementsVisibility();
   }
 
+  let inToolbarArea = false;
+  let inPageInfoArea = false;
+
+  let toolbarArea = document.querySelector('.toolbar-area');
+  let pageInfoArea = document.querySelector('.pageInfo-area');
+
   function handleUIElementsVisibility()
   {
-    let toolbar = document.querySelector('.toolbar');
-    let pageInfo = document.querySelector('.page-info');
-
     let startDelay = 5000;
-    let transitionDuration = 1000;
+    let transitionDuration = 1500;
 
     toolbar.style.transition = `opacity ${transitionDuration}ms linear`;
     pageInfo.style.transition = `opacity ${transitionDuration}ms linear`;
-
-    let toolbarArea = document.querySelector('.toolbar-area');
-    let pageInfoArea = document.querySelector('.pageInfo-area');
-
-    let inToolbarArea = false;
-    let inPageInfoArea = false;
 
     setTimeout(() =>
     {
@@ -95,55 +95,9 @@ function setupReadingPageUI()
       toolbar.style.pointerEvents = 'none';
       pageInfo.style.pointerEvents = 'none';
 
-      document.addEventListener('mousemove', (e) =>
-      {
-        const toolbarAreaRect = toolbarArea.getBoundingClientRect();
-        const pageInfoAreaRect = pageInfoArea.getBoundingClientRect();
-
-        const isInToolbarArea = (
-          e.clientX >= toolbarAreaRect.left &&
-          e.clientX <= toolbarAreaRect.right &&
-          e.clientY >= toolbarAreaRect.top &&
-          e.clientY <= toolbarAreaRect.bottom
-        );
-
-        if (isInToolbarArea != inToolbarArea)
-        {
-          if (isInToolbarArea)
-          {
-            toolbar.style.opacity = '1';
-            toolbar.style.pointerEvents = 'auto';
-            inToolbarArea = true;
-          } else
-          {
-            toolbar.style.opacity = '0';
-            toolbar.style.pointerEvents = 'none';
-            inToolbarArea = false;
-          }
-        }
-
-        const isInPageInfoArea = (
-          e.clientX >= pageInfoAreaRect.left &&
-          e.clientX <= pageInfoAreaRect.right &&
-          e.clientY >= pageInfoAreaRect.top &&
-          e.clientY <= pageInfoAreaRect.bottom
-        );
-
-        if (isInPageInfoArea != inPageInfoArea)
-        {
-          if (isInPageInfoArea)
-          {
-            pageInfo.style.opacity = '1';
-            pageInfo.style.pointerEvents = 'auto';
-            inPageInfoArea = true;
-          } else
-          {
-            pageInfo.style.opacity = '0';
-            pageInfo.style.pointerEvents = 'none';
-            inPageInfoArea = false;
-          }
-        }
-      });
+      document.addEventListener('mousemove', checkToolbarVisibility);
+      document.addEventListener('mousemove', checkPageInfoVisibility);
+      mainContainer.addEventListener('scroll', documentScrolled);
 
       setTimeout(() =>
       {
@@ -152,6 +106,63 @@ function setupReadingPageUI()
         pageInfo.style.transition = `opacity ${transitionDuration}ms linear`;
       }, transitionDuration);
     }, startDelay)
+  }
+
+  function checkToolbarVisibility(e)
+  {
+    const toolbarAreaRect = toolbarArea.getBoundingClientRect();
+
+    const isInToolbarArea = (
+      e.clientX >= toolbarAreaRect.left &&
+      e.clientX <= toolbarAreaRect.right &&
+      e.clientY >= toolbarAreaRect.top &&
+      e.clientY <= toolbarAreaRect.bottom
+    );
+
+    if (isInToolbarArea != inToolbarArea)
+    {
+      if (isInToolbarArea)
+      {
+        toolbar.style.opacity = '1';
+        toolbar.style.pointerEvents = 'auto';
+        inToolbarArea = true;
+      } else
+      {
+        if (isScaleMenuOpen == false && isSearchMenuOpen == false)
+        {
+          toolbar.style.opacity = '0';
+          toolbar.style.pointerEvents = 'none';
+          inToolbarArea = false;
+        }
+      }
+    }
+  }
+
+  function checkPageInfoVisibility(e)
+  {
+    const pageInfoAreaRect = pageInfoArea.getBoundingClientRect();
+
+    const isInPageInfoArea = (
+      e.clientX >= pageInfoAreaRect.left &&
+      e.clientX <= pageInfoAreaRect.right &&
+      e.clientY >= pageInfoAreaRect.top &&
+      e.clientY <= pageInfoAreaRect.bottom
+    );
+
+    if (isInPageInfoArea != inPageInfoArea)
+    {
+      if (isInPageInfoArea)
+      {
+        pageInfo.style.opacity = '1';
+        pageInfo.style.pointerEvents = 'auto';
+        inPageInfoArea = true;
+      } else
+      {
+        pageInfo.style.opacity = '0';
+        pageInfo.style.pointerEvents = 'none';
+        inPageInfoArea = false;
+      }
+    }
   }
 
   function removeLoading()
@@ -184,15 +195,16 @@ function setupReadingPageUI()
 
   function toggleScaleMenu()
   {
-
     if (scaleButton.getAttribute('class') == 'clicked')
     {
       scaleButton.removeAttribute('class');
       scaleMenu.removeAttribute('class');
+      isScaleMenuOpen = false;
     } else
     {
       scaleButton.setAttribute('class', 'clicked');
       scaleMenu.setAttribute('class', 'on');
+      isScaleMenuOpen = true;
     }
   }
 
@@ -265,6 +277,7 @@ function setupReadingPageUI()
     {
       searchButton.removeAttribute('class');
       searchMenu.removeAttribute('class');
+      isSearchMenuOpen = false;
     } else
     {
       searchMenu.setAttribute('class', 'on');
@@ -273,6 +286,7 @@ function setupReadingPageUI()
       {
         document.querySelector('.search-input').focus();
       }, 50);
+      isSearchMenuOpen = true;
     }
   }
 
@@ -334,19 +348,25 @@ function setupReadingPageUI()
   document.addEventListener('click', documentClicked);
   function documentClicked(e)
   {
-    if (e.target != scaleMenu && !scaleMenu.contains(e.target)
-      && e.target != scaleButton && !scaleButton.contains(e.target))
+    const isOutOfScale = e.target != scaleMenu && !scaleMenu.contains(e.target)
+      && e.target != scaleButton && !scaleButton.contains(e.target);
+
+    const isOutOfSearch = e.target != searchMenu && !searchMenu.contains(e.target)
+      && e.target != searchButton && !searchButton.contains(e.target)
+      && e.target != pageInfo && !pageInfo.contains(e.target);
+
+    if (isOutOfScale)
     {
       scaleMenu.removeAttribute('class');
       scaleButton.removeAttribute('class');
+      isScaleMenuOpen = false;
     }
 
-    if (e.target != searchMenu && !searchMenu.contains(e.target)
-      && e.target != searchButton && !searchButton.contains(e.target)
-      && e.target != pageInfo && !pageInfo.contains(e.target))
+    if (isOutOfSearch)
     {
       searchMenu.removeAttribute('class');
       searchButton.removeAttribute('class');
+      isSearchMenuOpen = false;
 
       // Reset the find controller state to remove highlights
       PDF_MODULE.findController.executeCommand('find', {
@@ -359,6 +379,27 @@ function setupReadingPageUI()
       // Optionally, reset the findController state completely
       PDF_MODULE.findController.active = false;
     }
+  }
+
+  let scrollTimer = null;
+  function documentScrolled(e)
+  {
+    document.removeEventListener('mousemove', checkPageInfoVisibility);
+
+    pageInfo.style.opacity = '1';
+    pageInfo.style.pointerEvents = 'auto';
+    inPageInfoArea = true;
+
+    if (scrollTimer !== null)
+      clearTimeout(scrollTimer);
+
+    scrollTimer = setTimeout(function ()
+    {
+      document.addEventListener('mousemove', checkPageInfoVisibility);
+      pageInfo.style.opacity = '0';
+      pageInfo.style.pointerEvents = 'none';
+      inPageInfoArea = false;
+    }, 2000);
   }
 
   // Setup CTRL + F shortcut for search input

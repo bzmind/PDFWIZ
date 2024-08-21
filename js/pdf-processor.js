@@ -37,8 +37,7 @@ function showPdf(file)
       pdfViewer = new pdfjsViewer.PDFViewer({
         container: document.querySelector('.main-container'),
         eventBus,
-        linkService: pdfLinkService,
-        currentScaleValue: 5
+        linkService: pdfLinkService
       });
 
       pdfViewer.setDocument(pdfDoc); // Renders all the pages by itself, adds them to the DOM
@@ -112,24 +111,30 @@ function showPdf(file)
 
       prevSearchResult.addEventListener('click', function ()
       {
-        findController.executeCommand('findagain', {
-          query: findController.state.query,
-          phraseSearch: true,
-          findPrevious: true,
-          caseSensitive: false,
-          highlightAll: true,
-        });
+        if (searchInput.value)
+        {
+          findController.executeCommand('findagain', {
+            query: findController.state.query,
+            phraseSearch: true,
+            findPrevious: true,
+            caseSensitive: false,
+            highlightAll: true,
+          });
+        }
       });
 
       nextSearchResult.addEventListener('click', function ()
       {
-        findController.executeCommand('findagain', {
-          query: findController.state.query,
-          phraseSearch: true,
-          findPrevious: false,
-          caseSensitive: false,
-          highlightAll: true,
-        });
+        if (searchInput.value)
+        {
+          findController.executeCommand('findagain', {
+            query: findController.state.query,
+            phraseSearch: true,
+            findPrevious: false,
+            caseSensitive: false,
+            highlightAll: true,
+          });
+        }
       });
     });
   }
@@ -323,7 +328,6 @@ function getPdfLastData(pdfHash)
     // Get pdf's last scale
     let scale = parseFloat(data.scale);
     changeScale(scale);
-    UI_MODULE.updateLocalStorage();
 
     // Get pdf's last position
     let lastPos = parseInt(data.position);
@@ -351,6 +355,10 @@ function changeScale(scale)
 {
   document.querySelector('input[name="scaleRadio"]:checked').removeAttribute('checked');
   let currentScaleInput = document.querySelector(`input[value="${scale}"]`);
+
+  if (!currentScaleInput)
+    currentScaleInput = document.querySelector(`input[value="${1.2}"]`);
+
   currentScaleInput.checked = "checked";
   // Trigger the change event for the scale to take effect
   const event = new Event('change', {
