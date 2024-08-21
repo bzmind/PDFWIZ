@@ -83,7 +83,7 @@ function setupReadingPageUI()
   function handleUIElementsVisibility()
   {
     let startDelay = 5000;
-    let transitionDuration = 1500;
+    let transitionDuration = 1000;
 
     toolbar.style.transition = `opacity ${transitionDuration}ms linear`;
     pageInfo.style.transition = `opacity ${transitionDuration}ms linear`;
