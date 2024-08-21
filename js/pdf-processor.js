@@ -256,10 +256,8 @@ function createOutlineItems(items, container, linkService, level = 0)
     // Navigate to the destination on click
     pTag.addEventListener('click', function ()
     {
-      linkService.goToDestination(item.dest).then(() =>
-      {
-        UI_MODULE.checkButtons();
-      });
+      pdfViewer.currentPageNumber = parseInt(pageSpan.textContent);
+      UI_MODULE.checkButtons();
     });
 
     // Recursively create the sub-outline items
