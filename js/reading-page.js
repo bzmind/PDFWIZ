@@ -12,6 +12,7 @@ function setupReadingPageUI()
   let isScaleMenuOpen = false;
   let isSearchMenuOpen = false;
   let isPageInfoFocused = false;
+  let isPageCounterFocused = false;
   let prevPageNum;
   let sidebar = document.querySelector('#sidebar');
   let toolbar = document.querySelector('.toolbar');
@@ -20,14 +21,6 @@ function setupReadingPageUI()
   let nextButton = document.querySelector('#next-page');
   let pageCounter = document.querySelector('#currPage');
   let mainContainer = document.querySelector('.main-container');
-
-  pageCounter.addEventListener('keydown', (e) =>
-  {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown')
-    {
-      e.preventDefault();
-    }
-  });
 
   pageCounter.value = 1;
 
@@ -471,6 +464,29 @@ function setupReadingPageUI()
     } else if (e.target.value != prevPageNum)
     {
       PDF_MODULE.pdfViewer.currentPageNumber = parseInt(e.target.value);
+      checkButtons();
+    }
+  });
+
+  // Enable arrow keys for page counter
+  pageCounter.addEventListener('keydown', (e) =>
+  {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown')
+    {
+      e.preventDefault();
+    }
+  });
+
+  pageCounter.addEventListener('wheel', (event) =>
+  {
+    event.preventDefault();
+    if (event.deltaY < 0)
+    {
+      PDF_MODULE.pdfViewer.currentPageNumber--;
+      checkButtons();
+    } else if (event.deltaY > 0)
+    {
+      PDF_MODULE.pdfViewer.currentPageNumber++;
       checkButtons();
     }
   });
