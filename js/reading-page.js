@@ -11,6 +11,7 @@ function setupReadingPageUI()
 {
   let isScaleMenuOpen = false;
   let isSearchMenuOpen = false;
+  let isPageInfoFocused = false;
   let prevPageNum;
   let sidebar = document.querySelector('#sidebar');
   let toolbar = document.querySelector('.toolbar');
@@ -19,6 +20,14 @@ function setupReadingPageUI()
   let nextButton = document.querySelector('#next-page');
   let pageCounter = document.querySelector('#currPage');
   let mainContainer = document.querySelector('.main-container');
+
+  pageCounter.addEventListener('keydown', (e) =>
+  {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown')
+    {
+      e.preventDefault();
+    }
+  });
 
   pageCounter.value = 1;
 
@@ -358,6 +367,13 @@ function setupReadingPageUI()
       && e.target != searchButton && !searchButton.contains(e.target)
       && e.target != pageInfo && !pageInfo.contains(e.target);
 
+    const isInsidePageInfo = e.target == pageInfo || pageInfo.contains(e.target);
+
+    if (isInsidePageInfo)
+      isPageInfoFocused = true;
+    else
+      isPageInfoFocused = false;
+
     if (isOutOfScale)
     {
       scaleMenu.removeAttribute('class');
@@ -441,7 +457,7 @@ function setupReadingPageUI()
         e.target.value = (prevPageNum == undefined ? 1 : prevPageNum);
       } else if (e.target.value != prevPageNum)
       {
-        PDF_MODULE.goToPage(parseInt(e.target.value));
+        PDF_MODULE.pdfViewer.currentPageNumber = parseInt(e.target.value);
         prevPageNum = e.target.value;
       }
     }
@@ -456,6 +472,25 @@ function setupReadingPageUI()
     {
       PDF_MODULE.pdfViewer.currentPageNumber = parseInt(e.target.value);
       checkButtons();
+    }
+  });
+
+  document.addEventListener('keydown', (e) =>
+  {
+    if (e.key === 'ArrowUp')
+    {
+      if (isPageInfoFocused)
+      {
+        PDF_MODULE.pdfViewer.currentPageNumber--;
+        checkButtons();
+      }
+    } else if (e.key === 'ArrowDown')
+    {
+      if (isPageInfoFocused)
+      {
+        PDF_MODULE.pdfViewer.currentPageNumber++;
+        checkButtons();
+      }
     }
   });
 
