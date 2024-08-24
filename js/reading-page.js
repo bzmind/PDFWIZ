@@ -305,10 +305,12 @@ function setupReadingPageUI()
 
     document.querySelector('.pdf-container').classList.toggle('pdf-dark-theme');
     document.querySelector('#sidebar').classList.toggle('sidebar-dark-theme');
+
+    updateLocalStorage();
   }
 
   // Set dark theme
-  setDarkTheme = function toggleTheme()
+  setDarkTheme = function setDarkTheme()
   {
     let activeTheme = document.querySelector('.active-theme');
     let darkTheme = document.querySelector('#dark');
@@ -327,7 +329,7 @@ function setupReadingPageUI()
   }
 
   // Set light theme
-  setLightTheme = function toggleTheme()
+  setLightTheme = function setLightTheme()
   {
     let activeTheme = document.querySelector('.active-theme');
     let lightTheme = document.querySelector('#light');
@@ -402,6 +404,7 @@ function setupReadingPageUI()
       pageInfo.style.opacity = '0';
       pageInfo.style.pointerEvents = 'none';
       inPageInfoArea = false;
+      updateLocalStorage();
     }, 2000);
   }
 

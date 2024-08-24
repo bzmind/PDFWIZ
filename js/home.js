@@ -54,10 +54,6 @@ uploadInput.onchange = (e) =>
 
 function processPdf(e)
 {
-  // If the user has already selected a file and is in the reading page now
-  if (document.querySelector('.temp') == null)
-    UI_MODULE.updateLocalStorage();
-
   let file;
 
   if (e.type == 'change')
