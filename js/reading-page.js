@@ -12,7 +12,6 @@ function setupReadingPageUI()
   let isScaleMenuOpen = false;
   let isSearchMenuOpen = false;
   let isPageInfoFocused = false;
-  let isPageCounterFocused = false;
   let prevPageNum;
   let sidebar = document.querySelector('#sidebar');
   let toolbar = document.querySelector('.toolbar');
@@ -32,14 +31,35 @@ function setupReadingPageUI()
   // Button events
   prevButton.addEventListener('click', () =>
   {
-    PDF_MODULE.pdfViewer.currentPageNumber--;
-    checkButtons();
+    goToPrevPage();
   });
   nextButton.addEventListener('click', () =>
   {
+    goTNextPage();
+  });
+
+  function goToPrevPage()
+  {
+    if (PDF_MODULE.pdfViewer.currentPageNumber - 1 == 0)
+    {
+      checkButtons();
+      return;
+    }
+    PDF_MODULE.pdfViewer.currentPageNumber--;
+    checkButtons();
+  }
+
+
+  function goTNextPage()
+  {
+    if (PDF_MODULE.pdfViewer.currentPageNumber + 1 > PDF_MODULE.allPages)
+    {
+      checkButtons();
+      return;
+    }
     PDF_MODULE.pdfViewer.currentPageNumber++;
     checkButtons();
-  });
+  }
 
   const pdfInfo = {
     position: '',
@@ -482,12 +502,10 @@ function setupReadingPageUI()
     event.preventDefault();
     if (event.deltaY < 0)
     {
-      PDF_MODULE.pdfViewer.currentPageNumber--;
-      checkButtons();
+      goToPrevPage();
     } else if (event.deltaY > 0)
     {
-      PDF_MODULE.pdfViewer.currentPageNumber++;
-      checkButtons();
+      goTNextPage();
     }
   });
 
@@ -497,15 +515,13 @@ function setupReadingPageUI()
     {
       if (isPageInfoFocused)
       {
-        PDF_MODULE.pdfViewer.currentPageNumber--;
-        checkButtons();
+        goToPrevPage();
       }
     } else if (e.key === 'ArrowDown')
     {
       if (isPageInfoFocused)
       {
-        PDF_MODULE.pdfViewer.currentPageNumber++;
-        checkButtons();
+        goTNextPage();
       }
     }
   });
