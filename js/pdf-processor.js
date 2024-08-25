@@ -211,6 +211,9 @@ function createOutlineItems(items, container, linkService, level = 0)
 
   items.forEach(async function (item)
   {
+    if (item.dest == null)
+      return;
+    
     const titleContainer = document.createElement('div');
     titleContainer.className = "titleContainer";
 
@@ -276,16 +279,21 @@ function createOutlineItems(items, container, linkService, level = 0)
 
 async function getDestinationPage(dest)
 {
-  let destination = null;
+  try
+  {
+    let destination = null;
 
-  if (Array.isArray(dest))
-    destination = dest;
-  else
-    destination = await pdfDoc.getDestination(dest);
+    if (Array.isArray(dest))
+      destination = dest;
+    else
+      destination = await pdfDoc.getDestination(dest);
 
-  const [destRef, ...rest] = destination;
-  const pageIndex = await pdfDoc.getPageIndex(destRef);
-  return pageIndex + 1; // Page index is zero-based, so add 1
+    const [destRef, ...rest] = destination;
+    const pageIndex = await pdfDoc.getPageIndex(destRef);
+    return pageIndex + 1; // Page index is zero-based, so add 1
+  } catch (error)
+  {
+  }
 }
 
 function toggleCSSProperty(element, property, value1, value2)
