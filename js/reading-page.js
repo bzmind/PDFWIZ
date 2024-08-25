@@ -25,7 +25,11 @@ function setupReadingPageUI()
 
   window.onunload = () =>
   {
+    console.log('[reading-page.js] Line 30');
+    console.log(localStorage);
     updateLocalStorage();
+    console.log(localStorage);
+    console.log('[reading-page.js] Line 30');
   };
 
   // Button events
@@ -90,7 +94,7 @@ function setupReadingPageUI()
     localStorage.setItem(PDF_MODULE.pdfHash, strPdfInfo);
   }
 
-  handleAfterPDFLoaded = function handleAfterPDFLoaded()
+  handleAfterPDFLoaded = function ()
   {
     removeLoading();
     handleUIElementsVisibility();
@@ -314,7 +318,7 @@ function setupReadingPageUI()
   }
 
   // Toggle Theme
-  toggleTheme = function toggleTheme()
+  toggleTheme = function ()
   {
     let activeTheme = document.querySelector('.active-theme');
     let disabledTheme = document.querySelector('.disabled-theme');
@@ -328,11 +332,15 @@ function setupReadingPageUI()
     document.querySelector('.pdf-container').classList.toggle('pdf-dark-theme');
     document.querySelector('#sidebar').classList.toggle('sidebar-dark-theme');
 
+    console.log('[reading-page.js] Line 337');
+    console.log(localStorage);
     updateLocalStorage();
+    console.log(localStorage);
+    console.log('[reading-page.js] Line 337');
   }
 
   // Set dark theme
-  setDarkTheme = function setDarkTheme()
+  setDarkTheme = function ()
   {
     let activeTheme = document.querySelector('.active-theme');
     let darkTheme = document.querySelector('#dark');
@@ -351,7 +359,7 @@ function setupReadingPageUI()
   }
 
   // Set light theme
-  setLightTheme = function setLightTheme()
+  setLightTheme = function ()
   {
     let activeTheme = document.querySelector('.active-theme');
     let lightTheme = document.querySelector('#light');
@@ -433,7 +441,11 @@ function setupReadingPageUI()
       pageInfo.style.opacity = '0';
       pageInfo.style.pointerEvents = 'none';
       inPageInfoArea = false;
+      console.log('[reading-page.js] Line 446');
+      console.log(localStorage);
       updateLocalStorage();
+      console.log(localStorage);
+      console.log('[reading-page.js] Line 446');
     }, 2000);
   }
 

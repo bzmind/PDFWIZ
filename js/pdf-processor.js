@@ -347,11 +347,19 @@ function getPdfLastData(pdfHash)
     else
       UI_MODULE.setLightTheme();
 
+    console.log('[pdf-processor.js] Line 352');
+    console.log(localStorage);
     UI_MODULE.updateLocalStorage();
+    console.log(localStorage);
+    console.log('[pdf-processor.js] Line 352');
   } else
   {
     changeScale(1.2);
+    console.log('[pdf-processor.js] Line 360');
+    console.log(localStorage);
     UI_MODULE.updateLocalStorage();
+    console.log(localStorage);
+    console.log('[pdf-processor.js] Line 360');
   }
 }
 
