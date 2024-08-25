@@ -35,6 +35,13 @@ function setupReadingPageUI()
     console.log('🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦');
   };
 
+  // Save PDF data on tab change
+  document.addEventListener('visibilitychange', function ()
+  {
+    if (document.hidden)
+      updateLocalStorage();
+  });
+
   // Button events
   prevButton.addEventListener('click', () =>
   {
@@ -428,6 +435,7 @@ function setupReadingPageUI()
   }
 
   let scrollTimer = null;
+  let savePdfDataTimer = null;
   function documentScrolled(e)
   {
     document.removeEventListener('mousemove', checkPageInfoVisibility);
@@ -436,10 +444,25 @@ function setupReadingPageUI()
     pageInfo.style.pointerEvents = 'auto';
     inPageInfoArea = true;
 
+    if (savePdfDataTimer !== null)
+      clearTimeout(savePdfDataTimer);
+
     if (scrollTimer !== null)
       clearTimeout(scrollTimer);
 
     checkButtons();
+
+    savePdfDataTimer = setTimeout(() =>
+    {
+      console.log('🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦');
+      console.log('▶️ [reading-page.js] Line 453');
+      console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
+      updateLocalStorage();
+      console.log('▶️ [Updated Local Storage]');
+      console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
+      console.log('▶️ [reading-page.js] Line 453');
+      console.log('🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦');
+    }, 500);
 
     scrollTimer = setTimeout(function ()
     {
@@ -447,14 +470,6 @@ function setupReadingPageUI()
       pageInfo.style.opacity = '0';
       pageInfo.style.pointerEvents = 'none';
       inPageInfoArea = false;
-      console.log('🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦');
-      console.log('[reading-page.js] Line 446');
-      console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
-      updateLocalStorage();
-      console.log('▶️ [Updated Local Storage]');
-      console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
-      console.log('[reading-page.js] Line 446');
-      console.log('🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦');
     }, 2000);
   }
 
