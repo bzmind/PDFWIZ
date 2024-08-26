@@ -355,25 +355,11 @@ function getPdfLastData(pdfHash)
     else
       UI_MODULE.setLightTheme();
 
-    console.log('====================================================================================================================================================================================================');
-    console.log('▶️ [pdf-processor.js] Line 361');
-    console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(pdfHash))));
     UI_MODULE.updateLocalStorage();
-    console.log('▶️ [Updated Local Storage]');
-    console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(pdfHash))));
-    console.log('▶️ [pdf-processor.js] Line 361');
-    console.log('====================================================================================================================================================================================================');
   } else
   {
     changeScale(1.2);
-    console.log('====================================================================================================================================================================================================');
-    console.log('▶️ [pdf-processor.js] Line 372');
-    console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(pdfHash))));
     UI_MODULE.updateLocalStorage();
-    console.log('▶️ [Updated Local Storage]');
-    console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(pdfHash))));
-    console.log('▶️ [pdf-processor.js] Line 372');
-    console.log('====================================================================================================================================================================================================');
   }
 }
 
