@@ -25,14 +25,14 @@ function setupReadingPageUI()
 
   window.onunload = () =>
   {
-    console.log('===========================================================================================================================================================================================================');
+    console.log('====================================================================================================================================================================================================');
     console.log('▶️ [reading-page.js] Line 30');
     console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
     updateLocalStorage();
     console.log('▶️ [Updated Local Storage]');
     console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
     console.log('▶️ [reading-page.js] Line 30');
-    console.log('===========================================================================================================================================================================================================');
+    console.log('====================================================================================================================================================================================================');
   };
 
   // Save PDF data on tab change
@@ -445,14 +445,14 @@ function setupReadingPageUI()
 
     savePdfDataTimer = setTimeout(() =>
     {
-      console.log('===========================================================================================================================================================================================================');
+      console.log('====================================================================================================================================================================================================');
       console.log('▶️ [reading-page.js] Line 453');
       console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
       updateLocalStorage();
       console.log('▶️ [Updated Local Storage]');
       console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
       console.log('▶️ [reading-page.js] Line 453');
-      console.log('===========================================================================================================================================================================================================');
+      console.log('====================================================================================================================================================================================================');
     }, 500);
 
     scrollTimer = setTimeout(function ()
