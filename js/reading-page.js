@@ -26,12 +26,12 @@ function setupReadingPageUI()
   window.onunload = () =>
   {
     console.log('====================================================================================================================================================================================================');
-    console.log('▶️ [reading-page.js] Line 30');
+    console.log('▶️ [reading-page.js] Line 31');
     console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
     updateLocalStorage();
     console.log('▶️ [Updated Local Storage]');
     console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
-    console.log('▶️ [reading-page.js] Line 30');
+    console.log('▶️ [reading-page.js] Line 31');
     console.log('====================================================================================================================================================================================================');
   };
 
@@ -446,12 +446,12 @@ function setupReadingPageUI()
     savePdfDataTimer = setTimeout(() =>
     {
       console.log('====================================================================================================================================================================================================');
-      console.log('▶️ [reading-page.js] Line 453');
+      console.log('▶️ [reading-page.js] Line 451');
       console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
       updateLocalStorage();
       console.log('▶️ [Updated Local Storage]');
       console.log(((data) => `position: ${data.position}\nscale: ${data.scale}\ntheme: ${data.theme}`)(JSON.parse(localStorage.getItem(PDF_MODULE.pdfHash))));
-      console.log('▶️ [reading-page.js] Line 453');
+      console.log('▶️ [reading-page.js] Line 451');
       console.log('====================================================================================================================================================================================================');
     }, 500);
 
