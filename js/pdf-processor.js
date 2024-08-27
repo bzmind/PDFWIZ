@@ -11,6 +11,7 @@ let allPages = 0;
 let sidebarScale = 0.25;
 let pdfDoc = null;
 let pdfHash;
+let scrollDelay = 200;
 
 const eventBus = new pdfjsViewer.EventBus();
 const pdfLinkService = new pdfjsViewer.PDFLinkService({
@@ -34,6 +35,12 @@ function showPdf(file)
       pdfDoc = _pdfDoc;
       allPages = pdfDoc.numPages;
       pdfHash = pdfDoc.fingerprints[0];
+
+      console.log('=========================================================================================================');
+      console.log('[pdf-processor.js] Line 40');
+      console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
+      console.log('=========================================================================================================');
+
       setLastPdfTheme(pdfHash);
       document.querySelector('#all-pages').textContent = allPages;
 
@@ -140,6 +147,11 @@ function showPdf(file)
           });
         }
       });
+
+      console.log('=========================================================================================================');
+      console.log('[pdf-processor.js] Line 152');
+      console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
+      console.log('=========================================================================================================');
     });
   }
 
@@ -335,29 +347,61 @@ function getPdfLastData(pdfHash)
   let pdf = localStorage.getItem(pdfHash);
   if (pdf != null)
   {
+    console.log('=========================================================================================================');
+    console.log('[pdf-processor.js] Line 351');
+    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
+    console.log('=========================================================================================================');
+
     let data = JSON.parse(localStorage.getItem(pdfHash));
 
     // Get pdf's last scale
+    // Changing the scale resets the scrollTop of main-container back to 0. IDK why... it doesn't scroll to
+    // the top when you set the currentScaleValue of the pdfViewer after the pages are loaded
+    // you can test that yourself... IDK why this initial one resets it...
+    // that's why I added a timeout for setting the scroll position. BTW, it worked without the timeout too but
+    // it'd sometimes randomly reset the scrollTop when I published it on the github pages... weird...
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
     let scale = parseFloat(data.scale);
     changeScale(scale);
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
 
     // Get pdf's last position
-    let lastPos = parseInt(data.position);
-    document.querySelector('.main-container').scrollTop = lastPos;
+    setTimeout(() =>
+    {
+      let lastPos = parseInt(data.position);
+      console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
+      document.querySelector('.main-container').scrollTop = lastPos;
+      console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
+    }, scrollDelay);
 
     // Get pdf's last theme
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
     document.querySelector('.active-theme').setAttribute('class', 'disabled-theme');
     let theme = data.theme;
     document.getElementById(theme).setAttribute('class', 'active-theme');
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
 
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
     if (theme == 'dark')
       UI_MODULE.setDarkTheme();
     else
       UI_MODULE.setLightTheme();
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
+
+    console.log('=========================================================================================================');
+    console.log('[pdf-processor.js] Line 376');
+    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
+    console.log('=========================================================================================================');
   } else
   {
     changeScale(1.2);
+    console.log('=========================================================================================================');
+    console.log('[pdf-processor.js] Line 365');
+    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
+    console.log('Updated local storage');
     UI_MODULE.updateLocalStorage();
+    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
+    console.log('=========================================================================================================');
   }
 }
 
@@ -370,16 +414,15 @@ function changeScale(scale)
     currentScaleInput = document.querySelector(`input[value="${1.2}"]`);
 
   currentScaleInput.checked = "checked";
-  // Trigger the change event for the scale to take effect
-  const event = new Event('change', {
-    bubbles: true, // Whether the event bubbles up through the DOM or not
-    cancelable: true // Whether the event is cancelable or not
-  });
-  currentScaleInput.dispatchEvent(event);
+  console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
+  // This line resets the scrollTop back to 0. But if you set it manually like with some click event
+  // after the pages are loaded, it won't change the scrollTop at all... it's weird...
+  pdfViewer.currentScaleValue = currentScaleInput.value;
+  console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
 }
 
 export
 {
-  allPages, pdfViewer, toggleCSSProperty, findController, pdfHash
+  allPages, pdfViewer, toggleCSSProperty, findController, pdfHash, scrollDelay
 };
 export default showPdf;

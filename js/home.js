@@ -1,5 +1,6 @@
 import showPdf from './pdf-processor.js';
 import * as UI_MODULE from './reading-page.js';
+import * as PDF_MODULE from './pdf-processor.js';
 
 let perfEntries = performance.getEntriesByType("navigation")[0];
 
@@ -95,6 +96,11 @@ function setLastPdf(file)
 
 function getLastPdf()
 {
+  console.log('=========================================================================================================');
+  console.log('[home.js] Line 101');
+  console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
+  console.log('=========================================================================================================');
+
   localforage.getItem('lastPdf', (err, value) =>
   {
     if (err || !value)
