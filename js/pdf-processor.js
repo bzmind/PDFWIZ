@@ -213,7 +213,7 @@ function createOutlineItems(items, container, linkService, level = 0)
   {
     if (item.dest == null)
       return;
-    
+
     const titleContainer = document.createElement('div');
     titleContainer.className = "titleContainer";
 
@@ -354,8 +354,6 @@ function getPdfLastData(pdfHash)
       UI_MODULE.setDarkTheme();
     else
       UI_MODULE.setLightTheme();
-
-    UI_MODULE.updateLocalStorage();
   } else
   {
     changeScale(1.2);
