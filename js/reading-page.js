@@ -136,18 +136,17 @@ function setupReadingPageUI()
 
     toolbar.style.transition = `opacity ${transitionDuration}ms linear`;
     pageInfo.style.transition = `opacity ${transitionDuration}ms linear`;
-
-    mainContainer.addEventListener('scroll', documentScrolled);
-
+    
     setTimeout(() =>
     {
       toolbar.style.opacity = '0';
       pageInfo.style.opacity = '0';
       toolbar.style.pointerEvents = 'none';
       pageInfo.style.pointerEvents = 'none';
-
+      
       document.addEventListener('mousemove', checkToolbarVisibility);
       document.addEventListener('mousemove', checkPageInfoVisibility);
+      mainContainer.addEventListener('scroll', documentScrolled);
 
       setTimeout(() =>
       {
