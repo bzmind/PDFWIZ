@@ -98,7 +98,7 @@ function getLastPdf()
 {
   console.log('=========================================================================================================');
   console.log('[home.js] Line 101');
-  console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
+  console.log(localStorage);
   console.log('=========================================================================================================');
 
   localforage.getItem('lastPdf', (err, value) =>

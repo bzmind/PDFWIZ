@@ -11,7 +11,7 @@ function setupReadingPageUI()
 {
   console.log('=========================================================================================================');
   console.log('[reading-page.js] Line 15');
-  console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
+  console.log(localStorage);
   console.log('=========================================================================================================');
 
   let isScaleMenuOpen = false;

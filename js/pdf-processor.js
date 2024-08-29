@@ -36,6 +36,8 @@ function showPdf(file)
       allPages = pdfDoc.numPages;
       pdfHash = pdfDoc.fingerprints[0];
 
+      console.log(pdfHash);
+      console.log(localStorage);
       console.log('=========================================================================================================');
       console.log('[pdf-processor.js] Line 40');
       console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
