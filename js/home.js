@@ -1,6 +1,10 @@
 import showPdf from './pdf-processor.js';
 import * as UI_MODULE from './reading-page.js';
-import * as PDF_MODULE from './pdf-processor.js';
+
+console.log('=========================================================================================================');
+console.log('[home.js] Line 6');
+console.log(localStorage);
+console.log('=========================================================================================================');
 
 let perfEntries = performance.getEntriesByType("navigation")[0];
 
