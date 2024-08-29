@@ -367,14 +367,10 @@ function getPdfLastData(pdfHash)
     changeScale(scale);
     console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
 
-    // Get pdf's last position
-    setTimeout(() =>
-    {
-      let lastPos = parseInt(data.position);
-      console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
-      document.querySelector('.main-container').scrollTop = lastPos;
-      console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
-    }, scrollDelay);
+    let lastPos = parseInt(data.position);
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
+    document.querySelector('.main-container').scrollTop = lastPos;
+    console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);
 
     // Get pdf's last theme
     console.log(`scrollTop  =>  ${document.querySelector('.main-container').scrollTop}`);

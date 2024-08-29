@@ -136,14 +136,14 @@ function setupReadingPageUI()
 
     toolbar.style.transition = `opacity ${transitionDuration}ms linear`;
     pageInfo.style.transition = `opacity ${transitionDuration}ms linear`;
-    
+
     setTimeout(() =>
     {
       toolbar.style.opacity = '0';
       pageInfo.style.opacity = '0';
       toolbar.style.pointerEvents = 'none';
       pageInfo.style.pointerEvents = 'none';
-      
+
       document.addEventListener('mousemove', checkToolbarVisibility);
       document.addEventListener('mousemove', checkPageInfoVisibility);
       mainContainer.addEventListener('scroll', documentScrolled);
@@ -216,18 +216,15 @@ function setupReadingPageUI()
 
   function removeLoading()
   {
-    setTimeout(() =>
+    const loading = document.querySelector('.loading');
+    if (loading)
     {
-      const loading = document.querySelector('.loading');
-      if (loading)
+      loading.style.opacity = 0;
+      setTimeout(() =>
       {
-        loading.style.opacity = 0;
-        setTimeout(() =>
-        {
-          loading.style.display = 'none';
-        }, 300); // Take this value from _reader.scss line 547 transition's duration
-      }
-    }, PDF_MODULE.scrollDelay);
+        loading.style.display = 'none';
+      }, 300); // Take this value from _reader.scss line 547 transition's duration
+    }
   }
 
   // Home button
