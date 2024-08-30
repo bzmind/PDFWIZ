@@ -1,10 +1,9 @@
 import showPdf from './pdf-processor.js';
 import * as UI_MODULE from './reading-page.js';
 
-console.log('=========================================================================================================');
 console.log('[home.js] Line 6');
 console.log(localStorage);
-console.log('=========================================================================================================');
+console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
 
 let perfEntries = performance.getEntriesByType("navigation")[0];
 
@@ -100,10 +99,9 @@ function setLastPdf(file)
 
 function getLastPdf()
 {
-  console.log('=========================================================================================================');
   console.log('[home.js] Line 101');
   console.log(localStorage);
-  console.log('=========================================================================================================');
+  console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
 
   localforage.getItem('lastPdf', (err, value) =>
   {

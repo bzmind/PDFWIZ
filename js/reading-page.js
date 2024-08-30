@@ -9,10 +9,9 @@ let handleAfterPDFLoaded;
 
 function setupReadingPageUI()
 {
-  console.log('=========================================================================================================');
   console.log('[reading-page.js] Line 15');
   console.log(localStorage);
-  console.log('=========================================================================================================');
+  console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
 
   let isScaleMenuOpen = false;
   let isSearchMenuOpen = false;
@@ -30,13 +29,12 @@ function setupReadingPageUI()
 
   window.onunload = () =>
   {
-    console.log('=========================================================================================================');
     console.log('[reading-page.js] Line 32');
     console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
     console.log('Updated local storage');
     updateLocalStorage();
     console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-    console.log('=========================================================================================================');
+    console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
   };
 
   // Save PDF data on tab change
@@ -44,13 +42,18 @@ function setupReadingPageUI()
   {
     if (document.hidden)
     {
-      console.log('=========================================================================================================');
+      mainContainer.removeEventListener('scroll', documentScrolled);
+      console.log('Removed documentScrolled event listener from main-container');
       console.log('[reading-page.js] Line 46');
       console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
       console.log('Updated local storage');
       updateLocalStorage();
       console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('=========================================================================================================');
+      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
+    } else
+    {
+      mainContainer.addEventListener('scroll', documentScrolled);
+      console.log('Added documentScrolled event listener from main-container');
     }
   });
 
@@ -457,13 +460,12 @@ function setupReadingPageUI()
 
     savePdfDataTimer = setTimeout(() =>
     {
-      console.log('=========================================================================================================');
       console.log('[reading-page.js] Line 459');
       console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
       console.log('Updated local storage');
       updateLocalStorage();
       console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('=========================================================================================================');
+      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
     }, 500);
 
     scrollTimer = setTimeout(function ()
