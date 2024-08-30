@@ -110,13 +110,25 @@ function setupReadingPageUI()
   }
 
   updateLocalStorage = function ()
-  {
+  {    
     pdfInfo.position = mainContainer.scrollTop;
+
+    if (pdfInfo.position == 0)
+      logToStorage();
+
     pdfInfo.scale = document.querySelector('input[name="scaleRadio"]:checked').value;
     pdfInfo.theme = document.querySelector('.active-theme').id;
 
     let strPdfInfo = JSON.stringify(pdfInfo);
     localStorage.setItem(PDF_MODULE.pdfHash, strPdfInfo);
+  }
+
+  function logToStorage()
+  {
+    const currentDate = new Date().toLocaleString();
+    const combinedData = `[${currentDate}] - mainContainer.scrollTop: ${mainContainer.scrollTop}`;
+    localStorage.setItem("log", combinedData);
+    console.log(localStorage);
   }
 
   handleAfterPDFLoaded = function ()
