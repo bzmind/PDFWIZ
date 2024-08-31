@@ -29,12 +29,15 @@ function setupReadingPageUI()
 
   window.onunload = () =>
   {
-    console.log('[reading-page.js] Line 32');
-    console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-    console.log('Updated local storage');
-    updateLocalStorage();
-    console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-    console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
+    if (!document.hidden)
+    {
+      console.log('[reading-page.js] Line 32');
+      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
+      console.log('Updated local storage');
+      updateLocalStorage();
+      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
+      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
+    }
   };
 
   // Save PDF data on tab change
@@ -112,7 +115,7 @@ function setupReadingPageUI()
   }
 
   updateLocalStorage = function ()
-  {    
+  {
     logToStorage();
     pdfInfo.position = mainContainer.scrollTop;
     pdfInfo.scale = document.querySelector('input[name="scaleRadio"]:checked').value;
