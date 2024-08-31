@@ -123,7 +123,7 @@ function setupReadingPageUI()
   function logToStorage()
   {
     const currentDate = new Date().toLocaleString();
-    const height = mainContainer.getBoundingClientRect().height;
+    const height = document.querySelector('.pdf-container').getBoundingClientRect().height;
     const combinedData = `[${currentDate}] - scrollTop: ${mainContainer.scrollTop} - height: ${height}`;
     localStorage.setItem("log", combinedData);
     console.log(localStorage);
