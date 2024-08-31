@@ -111,11 +111,8 @@ function setupReadingPageUI()
 
   updateLocalStorage = function ()
   {    
+    logToStorage();
     pdfInfo.position = mainContainer.scrollTop;
-
-    if (pdfInfo.position == 0)
-      logToStorage();
-
     pdfInfo.scale = document.querySelector('input[name="scaleRadio"]:checked').value;
     pdfInfo.theme = document.querySelector('.active-theme').id;
 
