@@ -144,8 +144,48 @@ function setupReadingPageUI()
   let inToolbarArea = false;
   let inPageInfoArea = false;
 
+  let tempInToolbarArea = false;
+  let tempInPageInfoArea = false;
+
   let toolbarArea = document.querySelector('.toolbar-area');
   let pageInfoArea = document.querySelector('.pageInfo-area');
+
+  document.addEventListener('mousemove', tempMousePositionCheckForToolbarArea);
+  document.addEventListener('mousemove', tempMousePositionCheckForPageInfoArea);
+
+  function tempMousePositionCheckForToolbarArea(e)
+  {
+    const toolbarAreaRect = toolbarArea.getBoundingClientRect();
+
+    const isInToolbarArea = (
+      e.clientX >= toolbarAreaRect.left &&
+      e.clientX <= toolbarAreaRect.right &&
+      e.clientY >= toolbarAreaRect.top &&
+      e.clientY <= toolbarAreaRect.bottom
+    );
+
+    if (isInToolbarArea)
+      tempInToolbarArea = true;
+    else
+      tempInToolbarArea = false;
+  }
+
+  function tempMousePositionCheckForPageInfoArea(e)
+  {
+    const pageInfoAreaRect = pageInfoArea.getBoundingClientRect();
+
+    const isInPageInfoArea = (
+      e.clientX >= pageInfoAreaRect.left &&
+      e.clientX <= pageInfoAreaRect.right &&
+      e.clientY >= pageInfoAreaRect.top &&
+      e.clientY <= pageInfoAreaRect.bottom
+    );
+
+    if (isInPageInfoArea)
+      tempInPageInfoArea = true;
+    else
+      tempInPageInfoArea = false;
+  }
 
   function handleUIElementsVisibility()
   {
@@ -157,10 +197,20 @@ function setupReadingPageUI()
 
     setTimeout(() =>
     {
-      toolbar.style.opacity = '0';
-      pageInfo.style.opacity = '0';
-      toolbar.style.pointerEvents = 'none';
-      pageInfo.style.pointerEvents = 'none';
+
+      if (tempInToolbarArea == false)
+      {
+        toolbar.style.opacity = '0';
+        toolbar.style.pointerEvents = 'none';
+      }
+      if (tempInPageInfoArea == false)
+      {
+        pageInfo.style.opacity = '0';
+        pageInfo.style.pointerEvents = 'none';
+      }
+
+      document.removeEventListener('mousemove', tempMousePositionCheckForToolbarArea);
+      document.removeEventListener('mousemove', tempMousePositionCheckForPageInfoArea);
 
       document.addEventListener('mousemove', checkToolbarVisibility);
       document.addEventListener('mousemove', checkPageInfoVisibility);
