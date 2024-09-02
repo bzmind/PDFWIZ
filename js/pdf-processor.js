@@ -1,7 +1,7 @@
-//####################################################################################
+//########################################################################################
 // To see all the events of the eventBus see this url:
 // https://github.com/VadimDez/ng2-pdf-viewer/blob/master/src/app/utils/event-bus-utils.ts
-//####################################################################################
+//########################################################################################
 
 import * as UI_MODULE from './reading-page.js';
 
@@ -36,14 +36,6 @@ function showPdf(file)
       allPages = pdfDoc.numPages;
       pdfHash = pdfDoc.fingerprints[0];
 
-      console.log(pdfHash);
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
-      console.log(localStorage);
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
-      console.log('[pdf-processor.js] Line 40');
-      console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
-
       setLastPdfTheme(pdfHash);
       document.querySelector('#all-pages').textContent = allPages;
 
@@ -53,16 +45,17 @@ function showPdf(file)
         linkService: pdfLinkService
       });
 
-      pdfViewer.setDocument(pdfDoc); // Renders all the pages by itself, adds them to the DOM
+      // Renders all the pages by itself, adds them to the DOM
+      pdfViewer.setDocument(pdfDoc);
 
       // Set the document for PDFLinkService
       pdfLinkService.setViewer(pdfViewer);
       pdfLinkService.setDocument(pdfDoc);
 
-      //####################################################################################
+      //########################################################################################
       // To see all the events of the eventBus see this url:
       // https://github.com/VadimDez/ng2-pdf-viewer/blob/master/src/app/utils/event-bus-utils.ts
-      //####################################################################################
+      //########################################################################################
       // Listen for pagechanging event to update current page
       pdfViewer.eventBus.on('pagechanging', function (e)
       {
@@ -102,7 +95,7 @@ function showPdf(file)
           const query = searchInput.value;
           findController.executeCommand('find', {
             query: query,
-            phraseSearch: true, // set to true to search for the entire phrase
+            phraseSearch: true,
             caseSensitive: false,
             highlightAll: true,
           });
@@ -114,7 +107,7 @@ function showPdf(file)
         const query = searchInput.value;
         findController.executeCommand('find', {
           query: query,
-          phraseSearch: true, // set to true to search for the entire phrase
+          phraseSearch: true,
           caseSensitive: false,
           highlightAll: true,
         });
@@ -150,10 +143,6 @@ function showPdf(file)
           });
         }
       });
-
-      console.log('[pdf-processor.js] Line 152');
-      console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
     });
   }
 
@@ -349,23 +338,13 @@ function getPdfLastData(pdfHash)
   let pdf = localStorage.getItem(pdfHash);
   if (pdf != null)
   {
-    console.log('[pdf-processor.js] Line 351');
-    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
-    console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
-
     let data = JSON.parse(localStorage.getItem(pdfHash));
 
     // Get pdf's last scale
-    // Changing the scale resets the scrollTop of main-container back to 0. IDK why... it doesn't scroll to
-    // the top when you set the currentScaleValue of the pdfViewer after the pages are loaded
-    // you can test that yourself... IDK why this initial one resets it...
-    // that's why I added a timeout for setting the scroll position. BTW, it worked without the timeout too but
-    // it'd sometimes randomly reset the scrollTop when I published it on the github pages... weird...
-    // EDIT: Changing the scale is not the problem, the pdf's position is set to 0 already, even before loading the PDF
-    // IDK why it resets to 0... But changing the scale before scrolling is fine.
     let scale = parseFloat(data.scale);
     changeScale(scale);
 
+    // Get pdf's last position
     let lastPos = parseInt(data.position);
     document.querySelector('.main-container').scrollTop = lastPos;
 
@@ -378,19 +357,10 @@ function getPdfLastData(pdfHash)
       UI_MODULE.setDarkTheme();
     else
       UI_MODULE.setLightTheme();
-
-    console.log('[pdf-processor.js] Line 376');
-    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
-    console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
   } else
   {
     changeScale(1.2);
-    console.log('[pdf-processor.js] Line 365');
-    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
-    console.log('Updated local storage');
     UI_MODULE.updateLocalStorage();
-    console.log(pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(pdfHash));
-    console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
   }
 }
 
@@ -403,10 +373,6 @@ function changeScale(scale)
     currentScaleInput = document.querySelector(`input[value="${1.2}"]`);
 
   currentScaleInput.checked = "checked";
-  // This line resets the scrollTop back to 0. But if you set it manually like with some click event
-  // after the pages are loaded, it won't change the scrollTop at all... it's weird...
-  // EDIT: Changing the scale is not the problem, the pdf's position is set to 0 already, even before loading the PDF
-  // IDK why it resets to 0... But changing the scale before scrolling is fine.
   pdfViewer.currentScaleValue = currentScaleInput.value;
 }
 

@@ -9,10 +9,6 @@ let handleAfterPDFLoaded;
 
 function setupReadingPageUI()
 {
-  console.log('[reading-page.js] Line 15');
-  console.log(localStorage);
-  console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
-
   let isScaleMenuOpen = false;
   let isSearchMenuOpen = false;
   let isPageInfoFocused = false;
@@ -31,12 +27,7 @@ function setupReadingPageUI()
   {
     if (!document.hidden)
     {
-      console.log('[reading-page.js] Line 32');
-      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('Updated local storage');
       updateLocalStorage();
-      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
     }
   };
 
@@ -46,19 +37,10 @@ function setupReadingPageUI()
     if (document.hidden)
     {
       mainContainer.removeEventListener('scroll', documentScrolled);
-      console.log('Removed documentScrolled event listener from main-container');
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
-      console.log('[reading-page.js] Line 46');
-      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('Updated local storage');
       updateLocalStorage();
-      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
     } else
     {
       mainContainer.addEventListener('scroll', documentScrolled);
-      console.log('Added documentScrolled event listener from main-container');
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
     }
   });
 
@@ -116,22 +98,12 @@ function setupReadingPageUI()
 
   updateLocalStorage = function ()
   {
-    logToStorage();
     pdfInfo.position = mainContainer.scrollTop;
     pdfInfo.scale = document.querySelector('input[name="scaleRadio"]:checked').value;
     pdfInfo.theme = document.querySelector('.active-theme').id;
 
     let strPdfInfo = JSON.stringify(pdfInfo);
     localStorage.setItem(PDF_MODULE.pdfHash, strPdfInfo);
-  }
-
-  function logToStorage()
-  {
-    const currentDate = new Date().toLocaleString();
-    const height = document.querySelector('.pdf-container').getBoundingClientRect().height;
-    const combinedData = `[${currentDate}] - scrollTop: ${mainContainer.scrollTop} - height: ${height}`;
-    localStorage.setItem("log", combinedData);
-    console.log(localStorage);
   }
 
   handleAfterPDFLoaded = function ()
@@ -494,7 +466,7 @@ function setupReadingPageUI()
 
       // Reset the find controller state to remove highlights
       PDF_MODULE.findController.executeCommand('find', {
-        query: '',           // Empty query to reset the search
+        query: '', // Empty query to reset the search
         caseSensitive: false,
         phraseSearch: true,
         highlightAll: false
@@ -525,12 +497,7 @@ function setupReadingPageUI()
 
     savePdfDataTimer = setTimeout(() =>
     {
-      console.log('[reading-page.js] Line 459');
-      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('Updated local storage');
       updateLocalStorage();
-      console.log(PDF_MODULE.pdfHash === undefined ? 'pdfHash is undefined' : localStorage.getItem(PDF_MODULE.pdfHash));
-      console.log('⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜');
     }, 500);
 
     scrollTimer = setTimeout(function ()
