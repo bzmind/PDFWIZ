@@ -453,26 +453,39 @@
 .outlineItem {
   cursor: pointer;
   word-wrap: break-word;
-  color: white;
+  color: white !important;
   border-radius: 5px 5px 0 0;
   border-bottom: 1px solid hsl(227, 8%, 35%);
 }
-.outlineItem p {
-  margin: 5px 5px 5px 0;
+.outlineItem p,
+.outlineItem a {
+  display: block;
+  margin: 5px 0 5px 0;
   letter-spacing: 0.5px;
   border-radius: 5px;
   padding: 5px;
   transition: all 0.1s ease-in-out;
+  color: white !important;
 }
-.outlineItem p:hover {
+.outlineItem p:hover,
+.outlineItem a:hover {
   background-color: #373941;
+}
+.outlineItem a:hover {
+  text-decoration: underline;
 }
 .outlineItem .titleContainer {
   display: flex;
+  padding-left: 5px;
   align-items: center;
   justify-content: center;
   width: 100%;
   border-bottom: 1px solid rgba(108, 112, 127, 0.5019607843);
+}
+.outlineItem .titleContainer p {
+  width: 100%;
+  border-bottom: 0;
+  margin-left: 5px;
 }
 .outlineItem .titleContainer .toggle {
   border-radius: 5px;
@@ -498,14 +511,9 @@
   background-color: #373941;
   border-color: #5074f9;
 }
-.outlineItem .titleContainer p {
-  width: 100%;
-  border-bottom: 0;
-  margin-left: 5px;
-}
 
 .pageSpan {
-  background-color: hsl(226, 20%, 33%);
+  background-color: hsl(226, 20%, 30%);
   border-radius: 5px;
   padding: 0 5px;
   margin-right: 5px;

@@ -214,8 +214,8 @@ function createOutlineItems(items, container, linkService, level = 0)
 
   items.forEach(async function (item)
   {
-    if (item.dest == null)
-      return;
+    let isDestNull = item.dest == null || item.dest[0] == null;
+    let isURL = item.url != null;
 
     const titleContainer = document.createElement('div');
     titleContainer.className = "titleContainer";
@@ -223,13 +223,25 @@ function createOutlineItems(items, container, linkService, level = 0)
     const li = document.createElement('li');
     li.className = 'outlineItem';
 
-    const pTag = document.createElement('p');
-    const pageSpan = document.createElement('span');
-    pageSpan.className = "pageSpan";
+    let textElement = null;
 
-    pageSpan.textContent = await getDestinationPage(item.dest);
-    pTag.appendChild(pageSpan);
-    pTag.appendChild(document.createTextNode(item.title));
+    if (isURL)
+    {
+      textElement = document.createElement('a');
+      textElement.href = item.url;
+      textElement.target = '_blank';
+    }
+    else
+      textElement = document.createElement('p');
+
+    if (isDestNull == false)
+    {
+      const pageSpan = document.createElement('span');
+      pageSpan.className = "pageSpan";
+      pageSpan.textContent = await getDestinationPage(item.dest);
+      textElement.appendChild(pageSpan);
+    }
+    textElement.appendChild(document.createTextNode(item.title));
 
     // If the item has children, add a toggle button
     if (item.items && item.items.length > 0)
@@ -253,24 +265,27 @@ function createOutlineItems(items, container, linkService, level = 0)
 
     if (item.items && item.items.length > 0)
     {
-      titleContainer.appendChild(pTag);
+      titleContainer.appendChild(textElement);
       li.style.borderBottom = 'none';
       li.appendChild(titleContainer);
       ul.appendChild(li);
     } else
     {
-      li.appendChild(pTag);
+      li.appendChild(textElement);
       ul.appendChild(li);
     }
 
-    // Navigate to the destination on click
-    pTag.addEventListener('click', function ()
+    if (isDestNull == false)
     {
-      linkService.goToDestination(item.dest).then(() =>
+      // Navigate to the destination on click
+      textElement.addEventListener('click', function ()
       {
-        UI_MODULE.checkButtons();
+        linkService.goToDestination(item.dest).then(() =>
+        {
+          UI_MODULE.checkButtons();
+        });
       });
-    });
+    }
 
     // Recursively create the sub-outline items
     if (item.items && item.items.length > 0)
