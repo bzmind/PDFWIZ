@@ -170,10 +170,13 @@ function setupReadingPageUI()
     setTimeout(() =>
     {
 
-      if (tempInToolbarArea == false)
+      if (tempInToolbarArea == false && isScaleMenuOpen == false && isSearchMenuOpen == false)
       {
         toolbar.style.opacity = '0';
         toolbar.style.pointerEvents = 'none';
+      } else
+      {
+        inToolbarArea = true;
       }
       if (tempInPageInfoArea == false)
       {
@@ -483,9 +486,12 @@ function setupReadingPageUI()
   {
     document.removeEventListener('mousemove', checkPageInfoVisibility);
 
-    pageInfo.style.opacity = '1';
-    pageInfo.style.pointerEvents = 'auto';
-    inPageInfoArea = true;
+    if (inPageInfoArea == false)
+    {
+      pageInfo.style.opacity = '1';
+      pageInfo.style.pointerEvents = 'auto';
+      inPageInfoArea = true;
+    }
 
     if (savePdfDataTimer !== null)
       clearTimeout(savePdfDataTimer);
