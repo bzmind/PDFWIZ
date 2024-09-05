@@ -354,6 +354,10 @@
       &:last-child {
         margin-bottom: 0px;
       }
+
+      &.with-sidebar {
+        margin-left: 50px !important;
+      }
     }
   }
 }

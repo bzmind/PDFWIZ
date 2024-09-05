@@ -318,6 +318,10 @@ function setupReadingPageUI()
   function toggleSidebar()
   {
     PDF_MODULE.toggleCSSProperty(sidebar, 'display', 'none', '');
+    document.querySelectorAll('.page').forEach(page =>
+    {
+      page.classList.toggle('with-sidebar');
+    });
   }
 
   // Setup sidebar buttons

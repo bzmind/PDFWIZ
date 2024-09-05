@@ -347,6 +347,9 @@
 .main-container .pdf-container .page:last-child {
   margin-bottom: 0px;
 }
+.main-container .pdf-container .page.with-sidebar {
+  margin-left: 50px !important;
+}
 
 .app-container {
   display: flex;

@@ -318,7 +318,7 @@ function toggleCSSProperty(element, property, value1, value2)
 {
   // Get the current value of the property
   let currentValue = window.getComputedStyle(element).getPropertyValue(property);
-
+  
   // Toggle between the two values
   if (currentValue.trim() === value1)
   {
